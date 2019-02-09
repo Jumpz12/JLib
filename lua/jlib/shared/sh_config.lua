@@ -20,9 +20,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Tatooine",
         origin = Vector(), -- Orgin Point Of The Sphere
-        radius = , -- Radius Of The Sphere
+        --radius = , -- Radius Of The Sphere
         gravity = 1, -- Gravity Multiplier Inside Of Sphere (0-1)
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -46,9 +46,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Hoth",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -72,9 +72,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Tython",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -98,9 +98,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Geonosis",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -124,9 +124,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Kashyyyk",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -150,9 +150,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Korriban",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -176,9 +176,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Illum",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -202,9 +202,9 @@ JLib.Config.Gravity.Spheres = {
 
         name = "Star Destroyer",
         origin = Vector(),
-        radius = ,
+        --radius = ,
         gravity = 1,
-        control = ""
+        control = "",
         control_points = {
 
             [1] = {
@@ -245,10 +245,9 @@ JLib.Config.Rebreather.Command = "/rebreather" -- Command needed to type to acti
 JLib.Config.Rebreather.Name = "Rebreather" -- Name on the HUD (Not sure at the moment)
 
 -- Planet Capture Settings
+JLib.Config.PlanetControl = JLib.Config.PlanetControl or {}
 
-Jlib.Config.PlanetControl = Jlib.Config.PlanetControl or {}
-
-Jlib.Config.PlanetControl.Cooldown = 25 -- Cooldown between Raids
+JLib.Config.PlanetControl.Cooldown = 25 -- Cooldown between Raids
 
 JLib.Config.PlanetControl.RaidTime = 15 -- How long a faction has to take the planet
 
@@ -258,23 +257,23 @@ JLib.Config.PlanetControl.Planet_Attack = ""
 
 JLib.Config.PlanetControl.HeroLeaders = { -- Hero Characters who can start a raid
 
-    ["TEAM_LUKESKYWALKER"],
-    ["TEAM_COCODY"],
-    ["TEAM_CPTREX"],
-    ["TEAM_YODA"],
-    ["TEAM_JEDIHCMEMBER"],
-    ["TEAM_REBELCPT"],
+    TEAM_LUKESKYWALKER,
+    TEAM_COCODY,
+    TEAM_CPTREX,
+    TEAM_YODA,
+    TEAM_JEDIHCMEMBER,
+    TEAM_REBELCPT,
 
 }
  
 JLib.Config.PlanetControl.VillianLeaders = { -- Villian Characters who can start a raid
 
-    ["TEAM_DARTHVADER"],
-    ["TEAM_PALPATINE"],
-    ["TEAM_SITHLORD"],
-    ["TEAM_IMPERIALCPT"],
-    ["TEAM_DOOKU"],
-    ["TEAM_COMMANDODROID"],
+    TEAM_DARTHVADER,
+    TEAM_PALPATINE,
+    TEAM_SITHLORD,
+    TEAM_IMPERIALCPT,
+    TEAM_DOOKU,
+    TEAM_COMMANDODROID,
 
 }
 
