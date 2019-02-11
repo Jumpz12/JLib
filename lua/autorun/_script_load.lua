@@ -11,7 +11,7 @@ JLib = JLib or {}
 JLib.Script = JLib.Script or {}
 JLib.Script.Name = "JLib"
 JLib.Script.Author = "Jumpz"
-JLib.Script.Build = "SBG - Version 1.3"
+JLib.Script.Build = "SBG - Version 1.4"
 JLib.Script.Released = "16/01/2019"
 JLib.Script.Website = "https://steamcommunity.com/id/jumpz12/"
 
