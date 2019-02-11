@@ -255,26 +255,29 @@ JLib.Config.PlanetControl.Status = false
 
 JLib.Config.PlanetControl.Planet_Attack = ""
 
-JLib.Config.PlanetControl.HeroLeaders = { -- Hero Characters who can start a raid
+hook.Add("PostGamemodeLoaded", "Table_Load", function()  
+    
+    JLib.Config.PlanetControl.HeroLeaders = { -- Hero Characters who can start a raid
 
-    TEAM_LUKESKYWALKER,
-    TEAM_COCODY,
-    TEAM_CPTREX,
-    TEAM_YODA,
-    TEAM_JEDIHCMEMBER,
-    TEAM_REBELCPT,
+        TEAM_LUKESKYWALKER,
+        TEAM_COCODY,
+        TEAM_CPTREX,
+        TEAM_YODA,
+        TEAM_JEDIHCMEMBER,
+        TEAM_REBELCPT,
 
-}
- 
-JLib.Config.PlanetControl.VillianLeaders = { -- Villian Characters who can start a raid
+    }
 
-    TEAM_DARTHVADER,
-    TEAM_PALPATINE,
-    TEAM_SITHLORD,
-    TEAM_IMPERIALCPT,
-    TEAM_DOOKU,
-    TEAM_COMMANDODROID,
+    JLib.Config.PlanetControl.VillianLeaders = { -- Villian Characters who can start a raid
 
-}
+        TEAM_DARTHVADER,
+        TEAM_PALPATINE,
+        TEAM_SITHLORD,
+        TEAM_IMPERIALCPT,
+        TEAM_DOOKU,
+        TEAM_COMMANDODROID,
 
+    }
+
+end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
