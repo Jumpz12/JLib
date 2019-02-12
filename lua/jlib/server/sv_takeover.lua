@@ -7,7 +7,13 @@ local function Takeover_Command (ply, text)
         ply:ChatPrint("Takeover command found")
         if not JLib.Config.PlanetControl.Status == false then return end
         ply:ChatPrint("No over takeover in progress")
-        if not table.HasValue(JLib.Config.PlanetControl.HeroLeaders, ply:Team()) then
+        for k, v in ipairs(JLib.Config.PlanetControl.Factions) do
+            if table.HasValue(JLib.Config.PlanetControl.Factions[k], ply:Team()) then
+                JLib.Config.PlanetControl.Status = k
+            end
+        end
+        if JLib.Config.PlanetControl.Status == false then return end
+        --[[if not table.HasValue(JLib.Config.PlanetControl.HeroLeaders, ply:Team()) then
             if not table.HasValue(JLib.Config.PlanetControl.VillianLeaders, ply:Team()) then return end
         end
         ply:ChatPrint("You are a hero/villian")
@@ -17,7 +23,7 @@ local function Takeover_Command (ply, text)
         elseif table.HasValue(JLib.Config.PlanetControl.VillianLeaders, ply:Team()) then
             JLib.Config.PlanetControl.Status = "Villians"
             ply:ChatPrint("Status Set To Villian")
-        end
+        end]]
         for i=1, #JLib.Config.Gravity.Spheres do
             if args[2] == JLib.Config.Gravity.Spheres[i].name then
                 JLib.Config.PlanetControl.Planet_Attack = v
