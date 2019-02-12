@@ -22,7 +22,7 @@ JLib.Config.Gravity.Spheres = {
         origin = Vector(), -- Orgin Point Of The Sphere
         --radius = , -- Radius Of The Sphere
         gravity = 1, -- Gravity Multiplier Inside Of Sphere (0-1)
-        control = "",
+        control = "", -- Who controls the planet originally
         control_points = {
 
             [1] = {
@@ -251,31 +251,55 @@ JLib.Config.PlanetControl.Cooldown = 25 -- Cooldown between Raids
 
 JLib.Config.PlanetControl.RaidTime = 15 -- How long a faction has to take the planet
 
-JLib.Config.PlanetControl.Status = false
+JLib.Config.PlanetControl.Status = false -- Current takeover status
 
-JLib.Config.PlanetControl.Planet_Attack = ""
+JLib.Config.PlanetControl.Planet_Attack = "" -- What planet is currently under attack
 
 hook.Add("PostGamemodeLoaded", "Table_Load", function()  
     
-    JLib.Config.PlanetControl.HeroLeaders = { -- Hero Characters who can start a raid
+    JLib.Config.PlanetControl.Factions = { -- Hero Characters who can start a raid
 
-        TEAM_LUKESKYWALKER,
-        TEAM_COCODY,
-        TEAM_CPTREX,
-        TEAM_YODA,
-        TEAM_JEDIHCMEMBER,
-        TEAM_REBELCPT,
+        ["Republic"] = {
 
-    }
+            TEAM_COCODY,
+            TEAM_CPTREX,
 
-    JLib.Config.PlanetControl.VillianLeaders = { -- Villian Characters who can start a raid
+        },
 
-        TEAM_DARTHVADER,
-        TEAM_PALPATINE,
-        TEAM_SITHLORD,
-        TEAM_IMPERIALCPT,
-        TEAM_DOOKU,
-        TEAM_COMMANDODROID,
+        ["Jedi"] = {
+
+            TEAM_YODA,
+            TEAM_MACEWINDU,
+
+        },
+
+        ["Rebellion"] = {
+
+            TEAM_LUKESKYWALKER,
+            TEAM_LEIA,
+
+        },
+
+        ["Empire"] = {
+
+            TEAM_MOFFTARKIN,
+            TEAM_GATHRAWN,
+
+        },
+
+        ["CIS"] = {
+
+            TEAM_GRIEVOUS,
+            TEAM_DOOKU,
+
+        }.
+
+        ["Sith"] = {
+
+            TEAM_PALPATINE,
+            TEAM_VADER,
+
+        },
 
     }
 
