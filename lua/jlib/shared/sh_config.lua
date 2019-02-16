@@ -261,47 +261,108 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
         ["Republic"] = {
 
-            TEAM_COCODY,
-            TEAM_CPTREX,
+            ["Leaders"] = {
+
+                TEAM_COCODY,
+                TEAM_CPTREX,
+
+            },
+
+            ["Allies"] = {
+
+
+
+            },
 
         },
 
         ["Jedi"] = {
 
-            TEAM_YODA,
-            TEAM_MACEWINDU,
+            ["Leaders"] = {
+            
+                TEAM_YODA,
+                TEAM_MACEWINDU,
+
+            },
+
+            ["Allies"] = {
+
+
+
+            },
 
         },
 
         ["Rebellion"] = {
 
+            ["Leaders"] = {
+
             TEAM_LUKESKYWALKER,
             TEAM_LEIA,
+
+            },
+
+            ["Allies"] = {
+
+        
+
+            },
 
         },
 
         ["Empire"] = {
 
+            ["Leaders"] = {
+            
             TEAM_MOFFTARKIN,
             TEAM_GATHRAWN,
+
+            },
+            
+            ["Allies"] = {
+
+
+
+            },
 
         },
 
         ["CIS"] = {
 
-            TEAM_GRIEVOUS,
-            TEAM_DOOKU,
+            ["Leaders"] = {
+
+                TEAM_GRIEVOUS,
+                TEAM_DOOKU,
+
+            },
+
+            ["Allies"] = {
+
+
+
+            },
 
         }.
 
         ["Sith"] = {
 
-            TEAM_PALPATINE,
-            TEAM_VADER,
+            ["Leaders"] = {
+
+                TEAM_PALPATINE,
+                TEAM_VADER,
+
+            },
+
+            ["Allies"] = {
+
+
+
+            },
 
         },
 
     }
+
 
 end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
