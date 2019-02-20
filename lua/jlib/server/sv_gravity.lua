@@ -16,7 +16,8 @@ local function CheckSpheres()
                 if not timer.Exists(p:SteamID64() .. "DamageTime") then 
                     if ply:HasGodMode() then return end
                     timer.Create(p:SteamID64() .. "DamageTime", JLib.Config.PlanetDamage.Time, 1, function(ply) 
-                         p:SetHealth(p:Health() - JLib.Config.PlanetDamage.Global end))
+                         p:SetHealth(p:Health() - JLib.Config.PlanetDamage.Global)
+                    end)
                     if p:Health() <= 0  then
                         p:Kill()
                     end
