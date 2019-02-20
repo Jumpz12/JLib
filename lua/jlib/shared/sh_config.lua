@@ -12,17 +12,16 @@ JLib.Config = JLib.Config or {}
 
 JLib.Config.Gravity = JLib.Config.Gravity or {}
 
-JLib.Config.Gravity.Global = 1 -- Gravity Multiplier Outside Of Spheres (0-1)
-
+JLib.Config.Gravity.Global = 1          -- Gravity Multiplier Outside Of Spheres (0-1)
 JLib.Config.Gravity.Spheres = {
 
     {
 
         name = "Tatooine",
-        origin = Vector(), -- Orgin Point Of The Sphere
-        --radius = , -- Radius Of The Sphere
-        gravity = 1, -- Gravity Multiplier Inside Of Sphere (0-1)
-        control = "", -- Who controls the planet originally
+        origin = Vector(),              -- Orgin Point Of The Sphere
+        --radius = ,                    -- Radius Of The Sphere
+        gravity = 1,                    -- Gravity Multiplier Inside Of Sphere (0-1)
+        control = "",                   -- Who controls the planet originally
         control_points = {
 
             [1] = {
@@ -229,133 +228,124 @@ JLib.Config.Gravity.Spheres = {
 -- Planet Damage Settings
 
 JLib.Config.PlanetDamage = JLib.Config.PlanetDamage or {}
-
-JLib.Config.PlanetDamage.Global = 5 -- Damage when not in the sphere
-
-JLib.Config.PlanetDamage.Time = 3 -- Time between damage taken
+JLib.Config.PlanetDamage.Global = 5         -- Damage when not in the sphere
+JLib.Config.PlanetDamage.Time = 3           -- Time between damage taken
 
 -- Rebreather Settings
 
 JLib.Config.Rebreather = JLib.Config.Rebreather or {}
-
-JLib.Config.Rebreather.Time = 30 -- How long the rebreathers effects will last
-
-JLib.Config.Rebreather.Command = "/rebreather" -- Command needed to type to activate rebreather
-
-JLib.Config.Rebreather.Name = "Rebreather" -- Name on the HUD (Not sure at the moment)
+JLib.Config.Rebreather.Time = 30                    -- How long the rebreathers effects will last
+JLib.Config.Rebreather.Command = "/rebreather"      -- Command needed to type to activate rebreather
+JLib.Config.Rebreather.Name = "Rebreather"          -- Name on the HUD (Not sure at the moment)
 
 -- Planet Capture Settings
 JLib.Config.PlanetControl = JLib.Config.PlanetControl or {}
-
-JLib.Config.PlanetControl.Cooldown = 25 -- Cooldown between Raids
-
-JLib.Config.PlanetControl.RaidTime = 15 -- How long a faction has to take the planet
-
-JLib.Config.PlanetControl.Status = false -- Current takeover status
-
-JLib.Config.PlanetControl.Planet_Attack = "" -- What planet is currently under attack
+JLib.Config.PlanetControl.Cooldown = 25       -- Cooldown between Raids
+JLib.Config.PlanetControl.RaidTime = 15       -- How long a faction has to take the planet
+JLib.Config.PlanetControl.Status = false      -- Current takeover status
+JLib.Config.PlanetControl.Planet_Attack = ""  -- What planet is currently under attack
 
 hook.Add("PostGamemodeLoaded", "Table_Load", function()  
     
     JLib.Config.PlanetControl.Factions = { -- Hero Characters who can start a raid
 
-        ["Republic"] = {
+        ["Lightside"] = {   
+            ["Grand Army of the Republic"] = {
+                ["Leaders"] = {
+                    TEAM_COCODY,
+                    TEAM_CPTREX,
+                },
+                ["Allies"] = {
 
-            ["Leaders"] = {
+                },
+            },
 
-                TEAM_COCODY,
-                TEAM_CPTREX,
+            ["The Jedi Order"] = {
+
+                ["Leaders"] = {
+                
+                    TEAM_YODA,
+                    TEAM_MACEWINDU,
+
+                },
+
+                ["Allies"] = {
+
+
+
+                },
 
             },
 
-            ["Allies"] = {
+            ["The Rebellion"] = {
 
+                ["Leaders"] = {
 
+                TEAM_LUKESKYWALKER,
+                TEAM_LEIA,
 
-            },
+                },
 
-        },
+                ["Allies"] = {
 
-        ["Jedi"] = {
-
-            ["Leaders"] = {
             
-                TEAM_YODA,
-                TEAM_MACEWINDU,
+
+                },
 
             },
-
-            ["Allies"] = {
-
-
-
-            },
-
-        },
-
-        ["Rebellion"] = {
-
-            ["Leaders"] = {
-
-            TEAM_LUKESKYWALKER,
-            TEAM_LEIA,
-
-            },
-
-            ["Allies"] = {
-
         
-
-            },
-
         },
 
-        ["Empire"] = {
+        ["Darkside"] = {
 
-            ["Leaders"] = {
-            
-            TEAM_MOFFTARKIN,
-            TEAM_GATHRAWN,
+            ["The Galactic Empire"] = {
 
-            },
-            
-            ["Allies"] = {
+                ["Leaders"] = {
+                
+                TEAM_MOFFTARKIN,
+                TEAM_GATHRAWN,
+
+                },
+                
+                ["Allies"] = {
 
 
 
-            },
-
-        },
-
-        ["CIS"] = {
-
-            ["Leaders"] = {
-
-                TEAM_GRIEVOUS,
-                TEAM_DOOKU,
+                },
 
             },
 
-            ["Allies"] = {
+            ["Confederacy of Independent Systems"] = {
+
+                ["Leaders"] = {
+
+                    TEAM_GRIEVOUS,
+                    TEAM_DOOKU,
+
+                },
+
+                ["Allies"] = {
 
 
+
+                },
 
             },
 
-        }.
+            ["The Sith Order"] = {
 
-        ["Sith"] = {
+                ["Leaders"] = {
 
-            ["Leaders"] = {
+                    TEAM_PALPATINE,
+                    TEAM_VADER,
 
-                TEAM_PALPATINE,
-                TEAM_VADER,
+                },
 
-            },
-
-            ["Allies"] = {
+                ["Allies"] = {
 
 
+
+                },
 
             },
 
