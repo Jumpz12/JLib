@@ -5,9 +5,8 @@
 
 ]]
 
-JLib = JLib or {}
 JLib.Config = JLib.Config or {}
-
+JLib.VGui = JLib.VGui or {}
 -- GRAVITY SETTINGS
 
 JLib.Config.Gravity = JLib.Config.Gravity or {}
