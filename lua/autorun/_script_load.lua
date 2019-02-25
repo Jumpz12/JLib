@@ -15,6 +15,8 @@ JLib.Script.Build = "SBG - Version 1.4"
 JLib.Script.Released = "12/02/2019"
 JLib.Script.Website = "https://steamcommunity.com/id/jumpz12/"
 
+
+
 -- INFORMATION
 
 local luaroot = "jlib"
