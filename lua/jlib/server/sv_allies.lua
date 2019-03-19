@@ -72,3 +72,28 @@ net.Receive("_JLib_AlliesInformation", function()
         end)
     end
 end)
+
+local function Remove_Allies_Command(ply, text)
+    local ally
+    local sides
+    if not ply:IsValid() then return end
+    if text == "!ally_remove" then
+        for k, v in pairs(DarkRP.getCategories().jobs) do
+            if v.name == ply:getJobTable().category then
+                sides = v.side
+            end
+        end
+        for k, v in pairs(JLib.Config.PlanetControl.Factions[sides][ply:getJobTable().category]["Allies"]) do
+            ally = v
+        end
+        JLib.Config.PlanetControl.Factions[sides][ply:getJobTable().category]["Allies"][1] = nil
+        JLib.Config.PlanetControl.Factions[sides][ally]["Leaders"] = nil
+        ply:ChatPrint(ally .. " Is no longer your Ally")
+        for k, v in pairs(player.GetAll()) do
+            if table.HasValue(JLib.Config.PlanetControl.Factions[sides][ally]["Leaders"], v:Team()) then
+                v:ChatPrint(ply:getJobTable().category .. " Is no longer your Ally")
+            end
+        end
+    end
+end
+hook.Add("PlayerSay", "Remove_Allies_Command", Remove_Allies_Command)
