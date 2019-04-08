@@ -7,8 +7,8 @@
 
 JLib.Config = JLib.Config or {}
 JLib.VGui = JLib.VGui or {}
--- GRAVITY SETTINGS
 
+-- Gravity Settings
 JLib.Config.Gravity = JLib.Config.Gravity or {}
 
 JLib.Config.Gravity.Global = 1          -- Gravity Multiplier Outside Of Spheres (0-1)
@@ -225,13 +225,11 @@ JLib.Config.Gravity.Spheres = {
 }
 
 -- Planet Damage Settings
-
 JLib.Config.PlanetDamage = JLib.Config.PlanetDamage or {}
 JLib.Config.PlanetDamage.Global = 5         -- Damage when not in the sphere
 JLib.Config.PlanetDamage.Time = 3           -- Time between damage taken
 
 -- Rebreather Settings
-
 JLib.Config.Rebreather = JLib.Config.Rebreather or {}
 JLib.Config.Rebreather.Time = 30                    -- How long the rebreathers effects will last
 JLib.Config.Rebreather.Command = "/rebreather"      -- Command needed to type to activate rebreather
