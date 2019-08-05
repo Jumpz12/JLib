@@ -352,3 +352,4 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
 end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
+JLib.Config.PlanetControl.Neutral_Limit = 15 -- How many players must be on the server to take a neutral planet.
