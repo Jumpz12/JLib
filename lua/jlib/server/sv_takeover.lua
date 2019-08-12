@@ -80,7 +80,14 @@ local function Takeover_Command(ply, text)
                                     player:ChatPrint("The faction " .. ply:getJobTable().category .. " has started a takeover for " .. k.name .. ", currently controlled by " .. k.control .. "!")
                                 end
                             end
-
+                            table.insert( JLib.Config.PlanetControl.Planet_Attack, k.name )
+                            timer.Create(string.Replace(k.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
+                                for k, v in pairs(player.GetAll()) do
+                                    ply:ChatPrint("The raid for " .. k.name .. " has ended!")
+                                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
+                                    table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
+                                end
+                            end)
                         end
                     end
                 end
