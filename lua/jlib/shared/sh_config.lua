@@ -240,7 +240,11 @@ JLib.Config.PlanetControl = JLib.Config.PlanetControl or {}
 JLib.Config.PlanetControl.Cooldown = 25       -- Cooldown between Raids
 JLib.Config.PlanetControl.RaidTime = 15       -- How long a faction has to take the planet
 JLib.Config.PlanetControl.Status = false      -- Current takeover status
-JLib.Config.PlanetControl.Planet_Attack = ""  -- What planet is currently under attack
+JLib.Config.PlanetControl.Planet_Attack = {   -- What planet is currently under attack
+
+
+
+}  
 
 hook.Add("PostGamemodeLoaded", "Table_Load", function()  
     
