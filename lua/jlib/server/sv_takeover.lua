@@ -1,4 +1,4 @@
-local function Takeover_Command (ply, text)
+--[[local function Takeover_Command (ply, text)
     if not IsValid(ply) then return end
     ply:ChatPrint("You are valid")
     local args = string.Split(text, " ")
@@ -13,7 +13,7 @@ local function Takeover_Command (ply, text)
             end
         end
         if JLib.Config.PlanetControl.Status == false then return end
-        --[[if not table.HasValue(JLib.Config.PlanetControl.HeroLeaders, ply:Team()) then
+        if not table.HasValue(JLib.Config.PlanetControl.HeroLeaders, ply:Team()) then
             if not table.HasValue(JLib.Config.PlanetControl.VillianLeaders, ply:Team()) then return end
         end
         ply:ChatPrint("You are a hero/villian")
@@ -23,7 +23,7 @@ local function Takeover_Command (ply, text)
         elseif table.HasValue(JLib.Config.PlanetControl.VillianLeaders, ply:Team()) then
             JLib.Config.PlanetControl.Status = "Villians"
             ply:ChatPrint("Status Set To Villian")
-        end]]
+        end
         for i=1, #JLib.Config.Gravity.Spheres do
             if args[2] == JLib.Config.Gravity.Spheres[i].name then
                 JLib.Config.PlanetControl.Planet_Attack = v
@@ -33,7 +33,7 @@ local function Takeover_Command (ply, text)
         end
     end
 end
-hook.Add("PlayerSay", "Takeover_Command", Takeover_Command)
+hook.Add("PlayerSay", "Takeover_Command", Takeover_Command)]]
 
 local function Takeover_Command(ply, text)
     if not IsValid(ply) then return end
@@ -79,7 +79,8 @@ local function Takeover_Command(ply, text)
                                 else
                                     player:ChatPrint("The faction " .. ply:getJobTable().category .. " has started a takeover for " .. k.name .. ", currently controlled by " .. k.control .. "!")
                                 end
-                            end     
+                            end
+
                         end
                     end
                 end
