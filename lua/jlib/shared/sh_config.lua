@@ -21,6 +21,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,                    -- Radius Of The Sphere
         gravity = 1,                    -- Gravity Multiplier Inside Of Sphere (0-1)
         control = "",                   -- Who controls the planet originally
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -51,6 +52,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -81,6 +83,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -111,6 +114,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -141,6 +145,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -171,6 +176,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -201,6 +207,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
@@ -231,6 +238,7 @@ JLib.Config.Gravity.Spheres = {
         --radius = ,
         gravity = 1,
         control = "",
+        attacker = "",
         progress = 0,
         control_points = {
 
