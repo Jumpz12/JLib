@@ -81,12 +81,18 @@ local function Takeover_Command(ply, text)
                                 end
                             end
                             table.insert( JLib.Config.PlanetControl.Planet_Attack, k.name )
+                            k.attacker = ply:getJobTable().category
                             timer.Create(string.Replace(k.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
                                 for k, v in pairs(player.GetAll()) do
                                     ply:ChatPrint("The raid for " .. k.name .. " has ended!")
                                     local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
                                     table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
                                 end
+                                k.progress = 0
+                                for a, b in pairs(k.control_points) do
+                                    a.progress = 0
+                                end
+                                k.attacker = ""
                             end)
                         end
                     end
@@ -100,13 +106,95 @@ hook.Add("PlayerSay", "JLib_Takeover_Command", Takeover_Command)
 
 -- TODO: Actual Takeover part here
 
---[[local function Planet_Takeover()
-    if JLib.Config.PlanetControl.Status == false then return end
-    
+local function Planet_Attack()
+    timer.Create("JLib_PlanetAttack_Loop", JLib.Config.PlanetControl.Update_Time, 1, Planet_Attack())
 
+    if #JLib.Config.PlanetControl.Planet_Attack == 0 then return end
 
+    for _, planet in pairs(JLib.Config.PlanetControl.Planet_Attack) do
 
+        for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
+            if planet == k.name then
+                
+                if k.progress == 100 then
 
-    
-hook.Add("Tick", "Planet_Takeover", Planet_Takeover)]]
+                    k.progress = 0
+                    timer.Remove(string.Replace(k.name, " ", ""))
+                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
+                    table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
+                    k.control = k.attacker
+                    k.attacker = ""
+
+                    for a, b in pairs(k.control_points) do
+                        a.progress = 0
+                    end
+
+                    for _, player in pairs(player.GetAll()) do
+                        player:ChatPrint(k.control .. " has successfully taken over " .. k.name .. "!")
+                    end
+
+                else
+
+                    for a, b in pairs(k.control_points) do
+
+                        local ents = ents.FindInSphere(a.origin, a.radius)
+                        local attackers = 0
+                        local defenders = 0
+
+                        if a.progress == 100 then
+
+                            if k.progress == 66 then
+
+                                k.progress = k.progress + 34
+                            
+                            else
+
+                                k.progress = k.progress + 33
+
+                            end
+
+                        end
+
+                        for c, d in pairs(ents) do
+
+                            if not d:IsPlayer() then break end
+
+                            if d:getJobTable().category == k.control then
+
+                                defenders = defenders + 1
+
+                            elseif d:getJobTable().category == k.attacker then
+
+                                attackers = attackers + 1   
+                            
+                            end
+                        
+                        end
+
+                        if defenders == 0 then
+
+                            a.progress = a.progress + 10
+
+                        elseif attackers == 0 then
+
+                            if a.progress ~= 0 then
+
+                                a.progress = a.progress - 10
+
+                            end
+                        
+                        end
+
+                    end
+                
+                end
+            
+            end
+
+        end
+
+    end
+
+end
+hook.Add("Initialize", "JLib_Planet_Attack", Planet_Attack)
