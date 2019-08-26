@@ -39,6 +39,7 @@ local function Takeover_Command(ply, text)
     if not IsValid(ply) then return end
     local args = string.Split(text, " ")
     local rest = table.concat(args, " ", 2)
+    local sides = ""
     if args[1] == "!takeover" then
         for k, v in pairs(DarkRP.getCategories().jobs) do
             if v.name == ply:getJobTable().category then
