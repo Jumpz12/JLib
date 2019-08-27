@@ -129,6 +129,7 @@ local function Planet_Attack()
 
                     for a, b in pairs(k.control_points) do
                         a.progress = 0
+                        a.captured = false
                     end
 
                     for _, player in pairs(player.GetAll()) do
@@ -143,7 +144,7 @@ local function Planet_Attack()
                         local attackers = 0
                         local defenders = 0
 
-                        if a.progress == 100 then
+                        if a.progress == 100 and a.captured == false then
 
                             if k.progress == 66 then
 
@@ -154,6 +155,8 @@ local function Planet_Attack()
                                 k.progress = k.progress + 33
 
                             end
+
+                            a.captured = true
 
                         end
 
