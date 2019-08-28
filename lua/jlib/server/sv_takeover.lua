@@ -46,6 +46,7 @@ local function Takeover_Command(ply, text)
                 sides = v.side
             end
         end
+        if sides == "Neutral" then return end
         if timer.Exists(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") then
             ply:ChatPrint("Sorry, but your faction is on a cooldown for " .. timer.TimeLeft(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") .. " minutes.")
             return
@@ -93,6 +94,16 @@ local function Takeover_Command(ply, text)
                                 for a, b in pairs(k.control_points) do
                                     a.progress = 0
                                 end
+                                timer.Create((string.Replace(k.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                                    for _, player in pairs(player.GetAll()) do
+                                        player:ChatPrint("The cooldown for " .. k.attacker .. " is now over!")
+                                    end
+                                end)
+                                timer.Create((string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                                    for _, player in pairs(player.GetAll()) do
+                                        player:ChatPrint("The cooldown for " .. k.control .. " is now over!")
+                                    end
+                                end)
                                 k.attacker = ""
                             end)
                         end
@@ -120,6 +131,17 @@ local function Planet_Attack()
                 
                 if k.progress == 100 then
 
+                    timer.Create((string.Replace(k.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                        for _, player in pairs(player.GetAll()) do
+                            player:ChatPrint("The cooldown for " .. k.attacker .. " is now over!")
+                        end
+                    end)
+                    timer.Create((string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                        for _, player in pairs(player.GetAll()) do
+                            player:ChatPrint("The cooldown for " .. k.control .. " is now over!")
+                        end
+                    end)
+
                     k.progress = 0
                     timer.Remove(string.Replace(k.name, " ", ""))
                     local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
@@ -135,6 +157,8 @@ local function Planet_Attack()
                     for _, player in pairs(player.GetAll()) do
                         player:ChatPrint(k.control .. " has successfully taken over " .. k.name .. "!")
                     end
+
+                    
 
                 else
 
