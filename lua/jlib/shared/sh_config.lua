@@ -317,8 +317,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
         ["Lightside"] = {   
             ["Grand Army of the Republic"] = {
                 ["Leaders"] = {
-                    "TEAM_COCODY",
-                    "TEAM_CPTREX",
+                    "TEAM_RCOCODY",
+                    "TEAM_RCPTREX",
                 },
                 ["Allies"] = {
 
@@ -330,7 +330,7 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
                 ["Leaders"] = {
                 
                     "TEAM_YODA",
-                    "TEAM_JEDIHCMEMBER",
+                    "TEAM_JEDILEADER",
 
                 },
 
