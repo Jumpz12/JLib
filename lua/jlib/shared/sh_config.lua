@@ -301,7 +301,7 @@ JLib.Config.Rebreather.Name = "Rebreather"          -- Name on the HUD (Not sure
 
 -- Planet Capture Settings
 JLib.Config.PlanetControl = JLib.Config.PlanetControl or {}
-JLib.Config.PlanetControl.Cooldown = 25       -- Cooldown between Raids
+JLib.Config.PlanetControl.Cooldown = 0       -- Cooldown between Raids
 JLib.Config.PlanetControl.RaidTime = 15       -- How long a faction has to take the planet
 JLib.Config.PlanetControl.Status = false      -- Current takeover status
 JLib.Config.PlanetControl.Planet_Attack = {   -- What planets are currently under attack
@@ -420,6 +420,6 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
 end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
-JLib.Config.PlanetControl.Neutral_Limit = 15 -- How many players must be on the server to take a neutral planet.
-JLib.Config.PlanetControl.Update_Time = 1 -- How often takeover progress is updated
+JLib.Config.PlanetControl.Neutral_Limit = 2 -- How many players must be on the server to take a neutral planet.
+JLib.Config.PlanetControl.Update_Time = 5 -- How often takeover progress is updated
 

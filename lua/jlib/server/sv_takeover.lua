@@ -66,9 +66,9 @@ local function Takeover_Command(ply, text)
 
             for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
-                if k.name == rest then
+                if v.name == rest then
 
-                    if k.control == "" then
+                    if v.control == "" then
 
                         if player.GetCount() < JLib.Config.PlanetControl.Neutral_Limit then
 
@@ -76,11 +76,18 @@ local function Takeover_Command(ply, text)
 
                         else
 
-                            k.control = ply:getJobTable().category
-                            ply:ChatPrint("You now own " .. k.name)
+                            v.control = ply:getJobTable().category
+
+                            for a, b in pairs(player.GetAll()) do
+
+                                b:ChatPrint(ply:getJobTable().category .. " now owns " .. v.name)
+
+                            end
+
+                            ply:ChatPrint("You now own " .. v.name)
                             timer.Create(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown", JLib.Config.PlanetControl.Cooldown * 60, 1, function()
-                                for k, v in pairs(player.GetAll()) do
-                                    v:ChatPrint(ply:getJobTable().catergory .. "'s takeover cooldown has ended.")
+                                for a, b in pairs(player.GetAll()) do
+                                    b:ChatPrint(ply:getJobTable().category .. "'s takeover cooldown has ended.")
                                 end
                             end)
 
@@ -88,59 +95,59 @@ local function Takeover_Command(ply, text)
 
                     else
 
-                        if k.control == JLib.Config.PlanetControl.Factions[sides][ply:GetJobTable().catergory]["Allies"][1] then
+                        if v.control == JLib.Config.PlanetControl.Factions[sides][ply:getJobTable().category]["Allies"][1] then
 
                             ply:ChatPrint("Sorry you can't takeover a planet controlled by a faction you are allied with.")
                             return
 
-                        elseif timer.Exists(string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") then
+                        elseif timer.Exists(string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") then
 
-                            ply:ChatPrint("Sorry, this faction is on a cooldown for " .. timer.TimeLeft(string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") .. " minutes.")
+                            ply:ChatPrint("Sorry, this faction is on a cooldown for " .. timer.TimeLeft(string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") .. " minutes.")
                             return
 
                         else
 
                             for _, player in pairs(player.GetAll()) do
 
-                                if player:getJobTable().category == k.control then
+                                if player:getJobTable().category == v.control then
 
-                                    player:ChatPrint("The faction " .. ply:getJobTable().category .. " has started a takeover for " .. k.name .. "!")
+                                    player:ChatPrint("The faction " .. ply:getJobTable().category .. " has started a takeover for " .. v.name .. "!")
 
                                 elseif player:getJobTable().category == ply:getJobTable().category then
 
-                                    player:ChatPrint("Your faction has started a takeover for " .. k.name .. ", currently controlled by " .. k.control .. "!")
+                                    player:ChatPrint("Your faction has started a takeover for " .. v.name .. ", currently controlled by " .. v.control .. "!")
 
                                 else
 
-                                    player:ChatPrint("The faction " .. ply:getJobTable().category .. " has started a takeover for " .. k.name .. ", currently controlled by " .. k.control .. "!")
+                                    player:ChatPrint("The faction " .. ply:getJobTable().category .. " has started a takeover for " .. v.name .. ", currently controlled by " .. v.control .. "!")
 
                                 end
 
                             end
 
-                            table.insert( JLib.Config.PlanetControl.Planet_Attack, k.name )
-                            k.attacker = ply:getJobTable().category
-                            timer.Create(string.Replace(k.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
+                            table.insert( JLib.Config.PlanetControl.Planet_Attack, v.name )
+                            v.attacker = ply:getJobTable().category
+                            timer.Create(string.Replace(v.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
                                 for k, v in pairs(player.GetAll()) do
-                                    ply:ChatPrint("The raid for " .. k.name .. " has ended!")
+                                    ply:ChatPrint("The raid for " .. v.name .. " has ended!")
                                     local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
                                     table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
                                 end
-                                k.progress = 0
-                                for a, b in pairs(k.control_points) do
+                                v.progress = 0
+                                for a, b in pairs(v.control_points) do
                                     a.progress = 0
                                 end
-                                timer.Create((string.Replace(k.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                                timer.Create((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                                     for _, player in pairs(player.GetAll()) do
-                                        player:ChatPrint("The cooldown for " .. k.attacker .. " is now over!")
+                                        player:ChatPrint("The cooldown for " .. v.attacker .. " is now over!")
                                     end
                                 end)
-                                timer.Create((string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                                timer.Create((string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                                     for _, player in pairs(player.GetAll()) do
-                                        player:ChatPrint("The cooldown for " .. k.control .. " is now over!")
+                                        player:ChatPrint("The cooldown for " .. v.control .. " is now over!")
                                     end
                                 end)
-                                k.attacker = ""
+                                v.attacker = ""
                             end)
 
                         end
@@ -160,9 +167,8 @@ end
 hook.Add("PlayerSay", "JLib_Takeover_Command", Takeover_Command)
 
 
-
+timer.Create("JLib_PlanetAttack_Loop", JLib.Config.PlanetControl.Update_Time, 0, Planet_Attack())
 local function Planet_Attack()
-    timer.Create("JLib_PlanetAttack_Loop", JLib.Config.PlanetControl.Update_Time, 1, Planet_Attack())
 
     if #JLib.Config.PlanetControl.Planet_Attack == 0 then return end
 
@@ -268,4 +274,4 @@ local function Planet_Attack()
     end
 
 end
-hook.Add("Initialize", "JLib_Planet_Attack", Planet_Attack)
+--hook.Add("PostGamemodeLoaded", "JLib_Planet_Attack", Planet_Attack)
