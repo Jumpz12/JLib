@@ -59,7 +59,7 @@ local function Takeover_Command(ply, text)
 
         if timer.Exists(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") then
 
-            ply:ChatPrint("Sorry, but your faction is on a cooldown for " .. timer.TimeLeft(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") .. " minutes.")
+            ply:ChatPrint("Sorry, but your faction is on a cooldown for " .. (timer.TimeLeft(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") / 60) .. " minutes.")
             return
 
         else
@@ -106,7 +106,7 @@ local function Takeover_Command(ply, text)
 
                         elseif timer.Exists(string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") then
 
-                            ply:ChatPrint("Sorry, this faction is on a cooldown for " .. timer.TimeLeft(string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") .. " minutes.")
+                            ply:ChatPrint("Sorry, this faction is on a cooldown for " .. (timer.TimeLeft(string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown") / 60) .. " minutes.")
                             return
 
                         else
