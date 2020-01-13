@@ -93,6 +93,9 @@ local function Takeover_Command(ply, text)
 
                         end
 
+                    elseif(v.control == ply:getJobTable().category) then
+                        ply:ChatPrint("Your faction already owns this planet!")
+
                     else
 
                         if v.control == JLib.Config.PlanetControl.Factions[sides][ply:getJobTable().category]["Allies"][1] then
