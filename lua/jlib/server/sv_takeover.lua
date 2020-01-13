@@ -94,6 +94,7 @@ local function Takeover_Command(ply, text)
                         end
 
                     elseif(v.control == ply:getJobTable().category) then
+                        
                         ply:ChatPrint("Your faction already owns this planet!")
 
                     else
@@ -254,13 +255,13 @@ local function Planet_Attack()
 
                         if defenders == 0 then
 
-                            a.progress = a.progress + 10
+                            a.progress = a.progress + 20
 
                         elseif attackers == 0 then
 
                             if a.progress ~= 0 then
 
-                                a.progress = a.progress - 10
+                                a.progress = a.progress - 20
 
                             end
                         
