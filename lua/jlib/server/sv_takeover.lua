@@ -103,13 +103,13 @@ local function Takeover_Command(ply, text)
 
                             end
 
-                            table.insert( JLib.Config.PlanetControl.Planet_Attack, v.name )
+                            table.insert( JLib.Config.PlanetControl.Attacks_Active, v.name )
                             v.attacker = ply:getJobTable().category
                             timer.Create(string.Replace(v.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
                                 for k, v in pairs(player.GetAll()) do
                                     ply:ChatPrint("The takeover for " .. v.name .. " has ended!")
-                                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
-                                    table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
+                                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Attacks_Active, k.name)
+                                    table.remove(JLib.Config.PlanetControl.Attacks_Active, index)
                                 end
                                 v.progress = 0
                                 for a, b in pairs(v.control_points) do
@@ -148,11 +148,17 @@ hook.Add("PlayerSay", "JLib_Takeover_Command", Takeover_Command)
 
 local function Planet_Attack()
 
-    if timer.Exists("JLib_Delay_Planet-Attack") then return end
+    print("Check Started")
 
-    if #JLib.Config.PlanetControl.Planet_Attack == 0 then return end
+    if table.IsEmpty(JLib.Config.PlanetControl.Attacks_Active) then 
 
-    for _, planet in pairs(JLib.Config.PlanetControl.Planet_Attack) do
+        timer.Simple(5, Planet_Attack)
+        print("Timer Started")
+        return 
+
+    end
+
+    for _, planet in pairs(JLib.Config.PlanetControl.Attacks_Active) do
 
         for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
@@ -174,8 +180,8 @@ local function Planet_Attack()
 
                     v.progress = 0
                     timer.Remove(string.Replace(v.name, " ", ""))
-                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, v.name)
-                    table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
+                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Attacks_Active, v.name)
+                    table.remove(JLib.Config.PlanetControl.Attacks_Active, index)
                     v.control = v.attacker
                     v.attacker = ""
 
@@ -194,7 +200,7 @@ local function Planet_Attack()
 
                     for a, b in pairs(v.control_points) do
 
-                        local ents = ents.FindInSphere(b.origin, b.radius)
+                        local participants = ents.FindInSphere(b.origin, b.radius)
                         local attackers = 0
                         local defenders = 0
 
@@ -214,7 +220,7 @@ local function Planet_Attack()
 
                         end
 
-                        for c, d in pairs(ents) do
+                        for c, d in pairs(participants) do
 
                             if d:IsPlayer() then 
                             
@@ -284,7 +290,8 @@ local function Planet_Attack()
 
     end
 
-    timer.Create("JLib_Delay_Planet-Attack", 5, 1, Planet_Attack())
+    timer.Simple(5, Planet_Attack)
+    print("Timer Created")
 
 end
-hook.Add("Tick", "JLib_Planet_Attack", Planet_Attack)
+hook.Add("PostGamemodeLoaded", "JLib_Planet_Start", Planet_Attack)
