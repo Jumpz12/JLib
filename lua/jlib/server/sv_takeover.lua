@@ -1,39 +1,6 @@
---[[local function Takeover_Command (ply, text)
-    if not IsValid(ply) then return end
-    ply:ChatPrint("You are valid")
-    local args = string.Split(text, " ")
-    ply:ChatPrint("Split up text")
-    if args[1] == "!takeover" then
-        ply:ChatPrint("Takeover command found")
-        if not JLib.Config.PlanetControl.Status == false then return end
-        ply:ChatPrint("No over takeover in progress")
-        for k, v in ipairs(JLib.Config.PlanetControl.Factions) do
-            if table.HasValue(JLib.Config.PlanetControl.Factions[k], ply:Team()) then
-                JLib.Config.PlanetControl.Status = k
-            end
-        end
-        if JLib.Config.PlanetControl.Status == false then return end
-        if not table.HasValue(JLib.Config.PlanetControl.HeroLeaders, ply:Team()) then
-            if not table.HasValue(JLib.Config.PlanetControl.VillianLeaders, ply:Team()) then return end
-        end
-        ply:ChatPrint("You are a hero/villian")
-        if table.HasValue(JLib.Config.PlanetControl.HeroLeaders, ply:Team()) then
-            JLib.Config.PlanetControl.Status = "Heroes"
-            ply:ChatPrint("Status Set To Hero")
-        elseif table.HasValue(JLib.Config.PlanetControl.VillianLeaders, ply:Team()) then
-            JLib.Config.PlanetControl.Status = "Villians"
-            ply:ChatPrint("Status Set To Villian")
-        end
-        for i=1, #JLib.Config.Gravity.Spheres do
-            if args[2] == JLib.Config.Gravity.Spheres[i].name then
-                JLib.Config.PlanetControl.Planet_Attack = v
-            else
-                ply:ChatPrint("That isn't a planet")
-            end
-        end
-    end
-end
-hook.Add("PlayerSay", "Takeover_Command", Takeover_Command)]]
+util.AddNetworkString("drawCommandPosts")
+util.AddNetworkString("removeCommandPosts")
+
 
 local function Takeover_Command(ply, text)
 
@@ -133,7 +100,7 @@ local function Takeover_Command(ply, text)
                             v.attacker = ply:getJobTable().category
                             timer.Create(string.Replace(v.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
                                 for k, v in pairs(player.GetAll()) do
-                                    ply:ChatPrint("The raid for " .. v.name .. " has ended!")
+                                    ply:ChatPrint("The takeover for " .. v.name .. " has ended!")
                                     local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
                                     table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
                                 end
@@ -189,6 +156,7 @@ local function Planet_Attack()
                             player:ChatPrint("The cooldown for " .. k.attacker .. " is now over!")
                         end
                     end)
+
                     timer.Create((string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
                             player:ChatPrint("The cooldown for " .. k.control .. " is now over!")
@@ -253,15 +221,33 @@ local function Planet_Attack()
                         
                         end
 
-                        if defenders == 0 then
+                        if defenders == 0 and attackers ~= 0 then
 
-                            a.progress = a.progress + 20
+                            if a.progress ~= 100 then
 
-                        elseif attackers == 0 then
+                                a.progress = a.progress + 20
+                                net.Start("drawCommandPosts")
+                                net.WriteVector(a.origin)
+                                net.WriteInt(a.radius, 32)
+                                net.WriteString("attacking")
+                                net.WriteString(k.attacker)
+                                net.WriteString(k.control)
+                                net.Broadcast()
 
-                            if a.progress ~= 0 then
+                            end
+
+                        elseif attackers == 0 and defenders ~= 0 then
+
+                            if a.progress ~= 0 and not a.captured then
 
                                 a.progress = a.progress - 20
+                                net.Start("drawCommandPosts")
+                                net.WriteVector(a.origin)
+                                net.WriteInt(a.radius, 32)
+                                net.WriteString("defending")
+                                net.WriteString(k.attacker)
+                                net.WriteString(k.control)
+                                net.Broadcast()
 
                             end
                         
