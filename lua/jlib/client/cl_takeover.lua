@@ -2,24 +2,22 @@ net.Receive("drawCommandPosts", function()
 
     local origin, radius, control, attackers, defenders = net.ReadVector(), net.ReadInt(32), net.ReadString(), net.ReadString(), net.ReadString()
     ply = LocalPlayer()
+    render.SetMaterial(mat)
     render.SetColorMaterial()
 
     if LocalPlayer().getJobTable().category == attackers then
 
         if control == "attacking" then
 
-            render.Clear(0, 0, 0, 0, true, true)
-            render.DrawSphere(origin, radius, 50, 50, color(0, 0, 255))
+            render.DrawSphere(Vector(-3119.504883, -2840.322998, 2147.031250), 300, 50, 50, Color(0, 0, 255, 100))
 
         elseif control == "defending" then
 
-            render.Clear(0, 0, 0, 0, true, true)
-            render.DrawSphere(origin, radius, 50, 50, color(255, 0, 0))
+            render.DrawSphere(Vector(-3119.504883, -2840.322998, 2147.031250), 300, 50, 50, Color(0, 0, 255, 100))
 
         elseif control == "neutral" then
 
-            render.Clear(0, 0, 0, 0, true, true)
-            render.DrawSphere(origin, radius, 50, 50, color(143, 143, 143))
+            render.DrawSphere(Vector(-3119.504883, -2840.322998, 2147.031250), 300, 50, 50, Color(0, 0, 255, 100))
 
         end
     
@@ -27,18 +25,15 @@ net.Receive("drawCommandPosts", function()
 
         if control == "defending" then
 
-            render.Clear(0, 0, 0, 0, true, true)
-            render.DrawSphere(origin, radius, 50, 50, color(0, 0, 255))
+            render.DrawSphere(Vector(-3119.504883, -2840.322998, 2147.031250), 300, 50, 50, Color(0, 0, 255, 100))
 
         elseif control == "attacking" then
 
-            render.Clear(0, 0, 0, 0, true, true)
-            render.DrawSphere(origin, radius, 50, 50, color(255, 0, 0))
+            render.DrawSphere(Vector(-3119.504883, -2840.322998, 2147.031250), 300, 50, 50, Color(0, 0, 255, 100))
 
         elseif control == "neutral" then
 
-            render.Clear(0, 0, 0, 0, true, true)
-            render.DrawSphere(origin, radius, 50, 50, color(143, 143, 143))
+            render.DrawSphere(Vector(-3119.504883, -2840.322998, 2147.031250), 300, 50, 50, Color(0, 0, 255, 100))
 
         end
 

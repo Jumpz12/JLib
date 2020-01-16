@@ -24,6 +24,13 @@ local function Takeover_Command(ply, text)
 
         if sides == "Neutral" then return end
 
+        if not table.HasValue(JLib.Config.PlanetControl.Factions[sides][ply:getJobTable().category]["Leaders"], ply:Team()) then 
+
+            ply:ChatPrint("You are not a leader of your faction!")
+            return
+
+        end
+
         if timer.Exists(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") then
 
             ply:ChatPrint("Sorry, but your faction is on a cooldown for " .. (timer.TimeLeft(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown") / 60) .. " minutes.")
@@ -138,8 +145,10 @@ end
 hook.Add("PlayerSay", "JLib_Takeover_Command", Takeover_Command)
 
 
-timer.Create("JLib_PlanetAttack_Loop", JLib.Config.PlanetControl.Update_Time, 0, Planet_Attack())
+
 local function Planet_Attack()
+
+    if timer.Exists("JLib_Delay_Planet-Attack") then return end
 
     if #JLib.Config.PlanetControl.Planet_Attack == 0 then return end
 
@@ -147,106 +156,108 @@ local function Planet_Attack()
 
         for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
-            if planet == k.name then
+            if planet == v.name then
                 
-                if k.progress == 100 then
+                if v.progress == 100 then
 
-                    timer.Create((string.Replace(k.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                    timer.Create((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
-                            player:ChatPrint("The cooldown for " .. k.attacker .. " is now over!")
+                            player:ChatPrint("The cooldown for " .. v.attacker .. " is now over!")
                         end
                     end)
 
-                    timer.Create((string.Replace(k.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                    timer.Create((string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
-                            player:ChatPrint("The cooldown for " .. k.control .. " is now over!")
+                            player:ChatPrint("The cooldown for " .. v.control .. " is now over!")
                         end
                     end)
 
-                    k.progress = 0
-                    timer.Remove(string.Replace(k.name, " ", ""))
-                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, k.name)
+                    v.progress = 0
+                    timer.Remove(string.Replace(v.name, " ", ""))
+                    local index = table.KeyFromValue( JLib.Config.PlanetControl.Planet_Attack, v.name)
                     table.remove(JLib.Config.PlanetControl.Planet_Attack, index)
-                    k.control = k.attacker
-                    k.attacker = ""
+                    v.control = v.attacker
+                    v.attacker = ""
 
-                    for a, b in pairs(k.control_points) do
-                        a.progress = 0
-                        a.captured = false
+                    for a, b in pairs(v.control_points) do
+                        b.progress = 0
+                        b.captured = false
                     end
 
                     for _, player in pairs(player.GetAll()) do
-                        player:ChatPrint(k.control .. " has successfully taken over " .. k.name .. "!")
+                        player:ChatPrint(v.control .. " has successfully taken over " .. v.name .. "!")
                     end
 
                     
 
                 else
 
-                    for a, b in pairs(k.control_points) do
+                    for a, b in pairs(v.control_points) do
 
-                        local ents = ents.FindInSphere(a.origin, a.radius)
+                        local ents = ents.FindInSphere(b.origin, b.radius)
                         local attackers = 0
                         local defenders = 0
 
-                        if a.progress == 100 and a.captured == false then
+                        if b.progress == 100 and b.captured == false then
 
-                            if k.progress == 66 then
+                            if v.progress == 66 then
 
-                                k.progress = k.progress + 34
+                                v.progress = v.progress + 34
                             
                             else
 
-                                k.progress = k.progress + 33
+                                v.progress = v.progress + 33
 
                             end
 
-                            a.captured = true
+                            b.captured = true
 
                         end
 
                         for c, d in pairs(ents) do
 
-                            if not d:IsPlayer() then break end
-
-                            if d:getJobTable().category == k.control then
-
-                                defenders = defenders + 1
-
-                            elseif d:getJobTable().category == k.attacker then
-
-                                attackers = attackers + 1   
+                            if d:IsPlayer() then 
                             
-                            end
+                                if d:getJobTable().category == v.control then
+
+                                    defenders = defenders + 1
+
+                                elseif d:getJobTable().category == v.attacker then
+
+                                    attackers = attackers + 1   
+                                
+                                end
                         
+                            end
+
                         end
 
                         if defenders == 0 and attackers ~= 0 then
 
-                            if a.progress ~= 100 then
+                            if b.progress ~= 100 then
 
-                                a.progress = a.progress + 20
+                                b.progress = b.progress + 20
                                 net.Start("drawCommandPosts")
-                                net.WriteVector(a.origin)
-                                net.WriteInt(a.radius, 32)
+                                net.WriteVector(b.origin)
+                                net.WriteInt(b.radius, 32)
                                 net.WriteString("attacking")
-                                net.WriteString(k.attacker)
-                                net.WriteString(k.control)
+                                net.WriteString(v.attacker)
+                                net.WriteString(v.control)
                                 net.Broadcast()
 
                             end
 
                         elseif attackers == 0 and defenders ~= 0 then
 
-                            if a.progress ~= 0 and not a.captured then
+                            if b.progress ~= 0 and not b.captured then
 
-                                a.progress = a.progress - 20
+                                b.progress = b.progress - 20
                                 net.Start("drawCommandPosts")
-                                net.WriteVector(a.origin)
-                                net.WriteInt(a.radius, 32)
+                                net.WriteVector(b.origin)
+                                net.WriteInt(b.radius, 32)
                                 net.WriteString("defending")
-                                net.WriteString(k.attacker)
-                                net.WriteString(k.control)
+                                net.WriteString(v.attacker)
+                                net.WriteString(v.control)
                                 net.Broadcast()
 
                             end
@@ -254,11 +265,11 @@ local function Planet_Attack()
                         elseif attackers == 0 and defenders == 0 then
 
                             net.Start("drawCommandPosts")
-                            net.WriteVector(a.origin)
-                            net.WriteInt(a.radius, 32)
+                            net.WriteVector(b.origin)
+                            net.WriteInt(b.radius, 32)
                             net.WriteString("neutral")
-                            net.WriteString(k.attacker)
-                            net.WriteString(k.control)
+                            net.WriteString(v.attacker)
+                            net.WriteString(v.control)
                             net.Broadcast()
                         
                         end
@@ -273,5 +284,7 @@ local function Planet_Attack()
 
     end
 
+    timer.Create("JLib_Delay_Planet-Attack", 5, 1, Planet_Attack())
+
 end
---hook.Add("PostGamemodeLoaded", "JLib_Planet_Attack", Planet_Attack)
+hook.Add("Tick", "JLib_Planet_Attack", Planet_Attack)

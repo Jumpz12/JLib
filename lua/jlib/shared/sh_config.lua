@@ -317,8 +317,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
         ["Lightside"] = {   
             ["Grand Army of the Republic"] = {
                 ["Leaders"] = {
-                    "TEAM_RCOCODY",
-                    "TEAM_RCPTREX",
+                    TEAM_RCOCODY,
+                    TEAM_RCPTREX,
                 },
                 ["Allies"] = {
 
@@ -329,8 +329,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
                 ["Leaders"] = {
                 
-                    "TEAM_YODA",
-                    "TEAM_JEDILEADER",
+                    TEAM_YODA,
+                    TEAM_JEDILEADER,
 
                 },
 
@@ -346,8 +346,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
                 ["Leaders"] = {
 
-                    "TEAM_LUKESKYWALKER",
-                    "TEAM_REBELCPT",
+                    TEAM_LUKESKYWALKER,
+                    TEAM_REBELCPT,
 
                 },
 
@@ -367,8 +367,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
                 ["Leaders"] = {
                 
-                    "TEAM_DARTHVADER",
-                    "TEAM_ICOCODY",
+                    TEAM_DARTHVADER,
+                    TEAM_ICOCODY,
 
                 },
                 
@@ -384,8 +384,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
                 ["Leaders"] = {
 
-                    "TEAM_DOOKU",
-                    "TEAM_COMMANDODROID",
+                    TEAM_DOOKU,
+                    TEAM_COMMANDODROID,
 
                 },
 
@@ -401,8 +401,8 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
                 ["Leaders"] = {
 
-                    "TEAM_PALPATINE",
-                    "TEAM_EMPERORWRATH",
+                    TEAM_PALPATINE,
+                    TEAM_EMPERORWRATH,
                 },
 
                 ["Allies"] = {
