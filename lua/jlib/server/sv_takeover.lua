@@ -250,6 +250,16 @@ local function Planet_Attack()
                                 net.Broadcast()
 
                             end
+
+                        elseif attackers == 0 and defenders == 0 then
+
+                            net.Start("drawCommandPosts")
+                            net.WriteVector(a.origin)
+                            net.WriteInt(a.radius, 32)
+                            net.WriteString("neutral")
+                            net.WriteString(k.attacker)
+                            net.WriteString(k.control)
+                            net.Broadcast()
                         
                         end
 
