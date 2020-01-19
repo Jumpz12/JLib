@@ -417,6 +417,6 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
 end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
-JLib.Config.PlanetControl.Neutral_Limit = 2 -- How many players must be on the server to take a neutral planet.
+JLib.Config.PlanetControl.Neutral_Limit = 1 -- How many players must be on the server to take a neutral planet.
 JLib.Config.PlanetControl.Update_Time = 5 -- How often takeover progress is updated
 

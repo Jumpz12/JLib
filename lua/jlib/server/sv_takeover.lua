@@ -209,10 +209,18 @@ local function Planet_Attack()
                             if v.progress == 66 then
 
                                 v.progress = v.progress + 34
+
+                                for _, player in pairs(player.GetAll()) do
+                                    player:ChatPrint(v.attacker .. "has captured a command post.")
+                                end
                             
                             else
 
                                 v.progress = v.progress + 33
+
+                                for _, player in pairs(player.GetAll()) do
+                                    player:ChatPrint(v.attacker .. "has captured a command post.")
+                                end
 
                             end
 
