@@ -46,9 +46,12 @@ local spheresToDraw = {}
 
 net.Receive("drawCommandPosts", function()
 
-    local origin, radius, control, attackers, defenders = net.ReadVector(), net.ReadInt(32), net.ReadString(), net.ReadString(), net.ReadString() 
+    local origin, radius, control, attackers, defenders, name = net.ReadVector(), net.ReadInt(32), net.ReadString(), net.ReadString(), net.ReadString(), net.ReadString()
+
+    if table.HasValue(spheresToDraw, name) then return end
 
     table.insert( spheresToDraw, {
+        name,
         origin,
         radius,
         control,
@@ -56,64 +59,64 @@ net.Receive("drawCommandPosts", function()
         defenders,
     } 
 )
+
 end)
 
-local function renderingSpheres()
 
+local function renderingSpheres(bDepth, bSkybox)
+
+    --if timer.Exists("renderingSpheresDelay") then return end
+        
+    --timer.Create("renderingSpheresDelay", 5, 1, renderingSpheres)
+
+    cam.Start3D()
     
     render.SetColorMaterial()
 
-    while true do
+    for k, v in pairs(spheresToDraw) do
+
+        --PrintTable(v)
+        --print(v.attackers)
+        --print(v.defenders)
+        --print(LocalPlayer():getJobTable().category)
+
+        if LocalPlayer():getJobTable().category == v[5] then --attackers
+
+            if v[4] == "attacking" then
+
+                render.DrawSphere(v[2], v[3], 50, 50, Color(0, 0, 255, 10))
+
+            elseif v[4] == "defending" then
+
+                render.DrawSphere(v[2], v[3], 50, 50, Color(255, 0, 0, 10))
+
+            elseif v[4] == "neutral" then
+
+                render.DrawSphere(v[2], v[3], 50, 50, Color(117, 117, 117, 10))
+
+            end
         
-        cam.Start3D()
+        elseif LocalPlayer():getJobTable().category == v[6] then --defenders
 
-        for k, v in pairs(spheresToDraw) do
+            if v[4] == "defending" then
 
-            if LocalPlayer():getJobTable().category == v.attackers then
+                render.DrawSphere(v[2], v[3], 50, 50, Color(0, 0, 255, 10))
 
-                if v.control == "attacking" then
+            elseif v[4] == "attacking" then
 
-                    render.Clear()
-                    render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
+                render.DrawSphere(v[2], v[3], 50, 50, Color(255, 0, 0, 10))
 
-                elseif v.control == "defending" then
+            elseif v[4] == "neutral" then
 
-                    render.Clear()
-                    render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-                elseif v.control == "neutral" then
-
-                    render.Clear()
-                    render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-                end
-            
-            elseif LocalPlayer():getJobTable().category == v.defenders then
-
-                if v.control == "defending" then
-
-                    render.Clear()
-                    render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-                elseif v.control == "attacking" then
-
-                    render.Clear()
-                    render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-                elseif v.control == "neutral" then
-
-                    render.Clear()
-                    render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-                end
+                render.DrawSphere(v[2], v[3], 50, 50, Color(117, 117, 117, 10))
 
             end
 
         end
 
-        cam.End3D()
-
     end
+
+    cam.End3D()
 
 end
 

@@ -211,7 +211,7 @@ local function Planet_Attack()
                                 v.progress = v.progress + 34
 
                                 for _, player in pairs(player.GetAll()) do
-                                    player:ChatPrint(v.attacker .. "has captured a command post.")
+                                    player:ChatPrint(v.attacker .. " has captured a command post.")
                                 end
                             
                             else
@@ -219,7 +219,7 @@ local function Planet_Attack()
                                 v.progress = v.progress + 33
 
                                 for _, player in pairs(player.GetAll()) do
-                                    player:ChatPrint(v.attacker .. "has captured a command post.")
+                                    player:ChatPrint(v.attacker .. " has captured a command post.")
                                 end
 
                             end
@@ -257,6 +257,7 @@ local function Planet_Attack()
                                 net.WriteString("attacking")
                                 net.WriteString(v.attacker)
                                 net.WriteString(v.control)
+                                net.WriteString(v.name)
                                 net.Broadcast()
 
                             end
@@ -272,11 +273,12 @@ local function Planet_Attack()
                                 net.WriteString("defending")
                                 net.WriteString(v.attacker)
                                 net.WriteString(v.control)
+                                net.WriteString(v.name)
                                 net.Broadcast()
 
                             end
 
-                        elseif attackers == 0 and defenders == 0 then
+                        else
 
                             net.Start("drawCommandPosts")
                             net.WriteVector(b.origin)
