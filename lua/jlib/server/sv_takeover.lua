@@ -148,12 +148,9 @@ hook.Add("PlayerSay", "JLib_Takeover_Command", Takeover_Command)
 
 local function Planet_Attack()
 
-    print("Check Started")
-
     if table.IsEmpty(JLib.Config.PlanetControl.Attacks_Active) then 
 
         timer.Simple(5, Planet_Attack)
-        print("Timer Started")
         return 
 
     end
@@ -165,10 +162,11 @@ local function Planet_Attack()
             if planet == v.name then
                 
                 if v.progress == 100 then
+                    local attacker = v.attacker
 
                     timer.Create((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
-                            player:ChatPrint("The cooldown for " .. v.attacker .. " is now over!")
+                            player:ChatPrint("The cooldown for " .. attacker .. " is now over!")
                         end
                     end)
 
@@ -301,7 +299,6 @@ local function Planet_Attack()
     end
 
     timer.Simple(5, Planet_Attack)
-    print("Timer Created")
 
 end
 hook.Add("PostGamemodeLoaded", "JLib_Planet_Start", Planet_Attack)
