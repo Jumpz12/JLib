@@ -164,12 +164,14 @@ local function Planet_Attack()
                 if v.progress == 100 then
                     local attacker = v.attacker
 
+                    timer.Remove((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
                     timer.Create((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
                             player:ChatPrint("The cooldown for " .. attacker .. " is now over!")
                         end
                     end)
-
+                    
+                    timer.Remove((string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
                     timer.Create((string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
                             player:ChatPrint("The cooldown for " .. v.control .. " is now over!")
