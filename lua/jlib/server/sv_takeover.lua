@@ -113,7 +113,11 @@ local function Takeover_Command(ply, text)
                                 end
                                 v.progress = 0
                                 for a, b in pairs(v.control_points) do
-                                    a.progress = 0
+                                    b.progress = 0
+                                    b.captured = false
+                                    net.Start("removeCommandPosts")
+                                    net.WriteString(b.name)
+                                    net.Broadcast()
                                 end
                                 timer.Create((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                                     for _, player in pairs(player.GetAll()) do
@@ -188,6 +192,9 @@ local function Planet_Attack()
                     for a, b in pairs(v.control_points) do
                         b.progress = 0
                         b.captured = false
+                        net.Start("removeCommandPosts")
+                        net.WriteString(b.name)
+                        net.Broadcast()
                     end
 
                     for _, player in pairs(player.GetAll()) do
