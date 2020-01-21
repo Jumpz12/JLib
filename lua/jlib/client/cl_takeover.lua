@@ -33,6 +33,8 @@ local function renderingSpheres(bDepth, bSkybox)
         
     --timer.Create("renderingSpheresDelay", 5, 1, renderingSpheres)
 
+    if table.IsEmpty(spheresToDraw) then return end
+
     cam.Start3D()
     
     render.SetColorMaterial()

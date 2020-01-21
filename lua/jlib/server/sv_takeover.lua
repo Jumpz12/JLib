@@ -164,8 +164,10 @@ local function Planet_Attack()
         for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
             if planet == v.name then
+
+                local commandPostsCaptured = 0
                 
-                if v.progress == 100 then
+                if commandPostsCaptured == 3 then
                     local attacker = v.attacker
 
                     timer.Remove((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
@@ -213,22 +215,10 @@ local function Planet_Attack()
 
                         if b.progress == 100 and b.captured == false then
 
-                            if v.progress == 66 then
+                            commandPostsCaptured = commandPostsCaptured + 1
 
-                                v.progress = v.progress + 34
-
-                                for _, player in pairs(player.GetAll()) do
-                                    player:ChatPrint(v.attacker .. " has captured a command post.")
-                                end
-                            
-                            else
-
-                                v.progress = v.progress + 33
-
-                                for _, player in pairs(player.GetAll()) do
-                                    player:ChatPrint(v.attacker .. " has captured a command post.")
-                                end
-
+                            for _, player in pairs(player.GetAll()) do
+                                player:ChatPrint(v.attacker .. " has captured a command post.")
                             end
 
                             b.captured = true
@@ -271,7 +261,12 @@ local function Planet_Attack()
 
                         elseif attackers == 0 and defenders ~= 0 then
 
-                            if b.progress ~= 0 and not b.captured then
+                            if b.captured == true then
+                                b.captured = false
+                                commandPostsCaptured = commandPostsCaptured - 1
+                            end
+                            
+                            if b.progress ~= 0 then
 
                                 b.progress = b.progress - 20
                                 net.Start("drawCommandPosts")
