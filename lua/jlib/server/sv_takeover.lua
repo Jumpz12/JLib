@@ -257,7 +257,7 @@ local function Planet_Attack()
                                 net.WriteString("attacking")
                                 net.WriteString(v.attacker)
                                 net.WriteString(v.control)
-                                net.WriteString(v.name)
+                                net.WriteString(b.name)
                                 net.Broadcast()
 
                             end
@@ -273,7 +273,7 @@ local function Planet_Attack()
                                 net.WriteString("defending")
                                 net.WriteString(v.attacker)
                                 net.WriteString(v.control)
-                                net.WriteString(v.name)
+                                net.WriteString(b.name)
                                 net.Broadcast()
 
                             end
@@ -285,7 +285,7 @@ local function Planet_Attack()
                             net.WriteInt(b.radius, 32)
                             net.WriteString("neutral")
                             net.WriteString(v.attacker)
-                            net.WriteString(v.control)
+                            net.WriteString(b.control)
                             net.Broadcast()
                         
                         end

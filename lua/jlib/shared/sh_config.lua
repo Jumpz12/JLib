@@ -26,18 +26,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Tatooine A",
                 origin = Vector(5121.949707, -9037.371094, -3383.655518),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Tatooine B",
                 origin = Vector(5468.858398, -12792.708984, -3583.920654),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Tatooine C",
                 origin = Vector(3592.949463, -9114.949219, -3576.496338),
                 radius = 200,
                 progress = 0,
@@ -60,18 +63,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Hoth A",
                 origin = Vector(-3119.504883, -2840.322998, 2147.031250),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Hoth B",
                 origin = Vector(-1526.392456, -2698.471191, 2147.031250),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Hoth C",
                 origin = Vector(-6098.393555, 1497.231934, 2165.325684),
                 radius = 200,
                 progress = 0,
@@ -94,18 +100,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Tython A",
                 origin = Vector(-10240.182617, -8438.574219, 10924.031250),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Tython B",
                 origin = Vector(-12434.535156, -12257.809570, 10560.892578),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Tython C",
                 origin = Vector(-12432.916016, -9054.247070, 8872.031250),
                 radius = 200,
                 progress = 0,
@@ -128,18 +137,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Geonosis A",
                 origin = Vector(-10477.693359, 8412.937500, 8956.291016),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Geonosis B",
                 origin = Vector(-9172.641602, 12798.719727, 9532.031250),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Geonosis C",
                 origin = Vector(-9172.641602, 12798.719727, 9532.031250),
                 radius = 200,
                 progress = 0,
@@ -162,18 +174,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Kashyyyk A",
                 origin = Vector(-9172.641602, 12798.719727, 9532.031250),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Kashyyyk B",
                 origin = Vector(-8968.150391, 5225.820801, -8116.968750),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Kashyyyk C",
                 origin = Vector(-8968.150391, 5225.820801, -8116.968750),
                 radius = 200,
                 progress = 0,
@@ -196,18 +211,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Korriban A",
                 origin = Vector(5175.112305, 10922.045898, -9365.117188),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Korriban B",
                 origin = Vector(2354.235352, 5727.841797, -9381.968750),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Korriban C",
                 origin = Vector(4436.012207, 6143.295898, -11079.468750),
                 radius = 200,
                 progress = 0,
@@ -230,18 +248,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Illum A",
                 origin = Vector(6907.895996, 10810.828125, 6426.340332),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Illum B",
                 origin = Vector(8120.113770, 8403.683594, 3483.031250),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Illum C",
                 origin = Vector(10200.030273, 8016.627441, 3483.475098),
                 radius = 200,
                 progress = 0,
@@ -264,18 +285,21 @@ JLib.Config.Gravity.Spheres = {
         control_points = {
 
             [1] = {
+                name = "Star Destroyer A",
                 origin = Vector(13541.453125, -226.528046, -138.893188),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [2] = {
+                name = "Star Destroyer B",
                 origin = Vector(13541.453125, -226.528046, -138.893188),
                 radius = 200,
                 progress = 0,
                 captured = false,
             },
             [3] = {
+                name = "Star Destroyer C",
                 origin = Vector(13541.453125, -226.528046, -138.893188),
                 radius = 200,
                 progress = 0,

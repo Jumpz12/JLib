@@ -1,54 +1,18 @@
---[[net.Receive("drawCommandPosts", function()
-
-    local origin, radius, control, attackers, defenders = net.ReadVector(), net.ReadInt(32), net.ReadString(), net.ReadString(), net.ReadString() 
-
-    cam.Start3D()
-    render.SetColorMaterial()
-
-    if LocalPlayer():getJobTable().category == attackers then
-
-        if control == "attacking" then
-
-            render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-        elseif control == "defending" then
-
-            render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-        elseif control == "neutral" then
-
-            render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-        end
-    
-    elseif LocalPlayer():getJobTable().category == defenders then
-
-        if control == "defending" then
-
-            render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-        elseif control == "attacking" then
-
-            render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-        elseif control == "neutral" then
-
-            render.DrawSphere(Vector(-4006.552734, -318.367249, 3835.896729), 300, 50, 50, Color(0, 0, 255, 255))
-
-        end
-
-    end
-    cam.End3D()
-end)]]
-
-
 local spheresToDraw = {}
 
 net.Receive("drawCommandPosts", function()
 
     local origin, radius, control, attackers, defenders, name = net.ReadVector(), net.ReadInt(32), net.ReadString(), net.ReadString(), net.ReadString(), net.ReadString()
 
-    if table.HasValue(spheresToDraw, name) then return end
+    for k, v in pairs(spheresToDraw) do
+
+        if name == v[1] then
+
+            table.remove(spheresToDraw, k)
+
+        end
+
+    end
 
     table.insert( spheresToDraw, {
         name,
@@ -121,3 +85,19 @@ local function renderingSpheres(bDepth, bSkybox)
 end
 
 hook.Add("PostDrawTranslucentRenderables", "drawingSpheres", renderingSpheres)
+
+net.Receive("removeCommandPosts", function()
+
+    local name = net.ReadString()
+
+    for k, v in pairs(spheresToDraw) do
+
+        if v[1] == name then 
+
+            table.remove(spheresToDraw, k)
+
+        end
+
+    end
+
+end)
