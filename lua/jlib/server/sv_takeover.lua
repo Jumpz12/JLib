@@ -106,8 +106,8 @@ local function Takeover_Command(ply, text)
                             table.insert( JLib.Config.PlanetControl.Attacks_Active, v.name )
                             v.attacker = ply:getJobTable().category
                             timer.Create(string.Replace(v.name, " ", ""), JLib.Config.PlanetControl.RaidTime * 60, 1, function()
-                                for k, v in pairs(player.GetAll()) do
-                                    ply:ChatPrint("The takeover for " .. v.name .. " has ended!")
+                                for _, player in pairs(player.GetAll()) do
+                                    player:ChatPrint("The takeover for " .. v.name .. " has ended!")
                                     local index = table.KeyFromValue( JLib.Config.PlanetControl.Attacks_Active, k.name)
                                     table.remove(JLib.Config.PlanetControl.Attacks_Active, index)
                                 end
@@ -164,10 +164,8 @@ local function Planet_Attack()
         for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
             if planet == v.name then
-
-                local commandPostsCaptured = 0
                 
-                if commandPostsCaptured == 3 then
+                if v.progress == 3 then
                     local attacker = v.attacker
 
                     timer.Remove((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
@@ -213,16 +211,28 @@ local function Planet_Attack()
                         local attackers = 0
                         local defenders = 0
 
-                        if b.progress == 100 and b.captured == false then
+                        if b.progress == 100 and b.captured ~= v.attacker then
 
-                            commandPostsCaptured = commandPostsCaptured + 1
+                            v.progress = v.progress + 1
 
                             for _, player in pairs(player.GetAll()) do
                                 player:ChatPrint(v.attacker .. " has captured a command post.")
                             end
 
-                            b.captured = true
+                            b.captured = v.attacker
 
+                        end
+
+                        if b.progress == -100 and b.captured ~= v.control then
+
+                            v.progress = v.progress - 1
+
+                            for _, player in pairs(player.GetAll()) do
+                                player:ChatPrint(v.control .. " has captured a command post.")
+                            end
+
+                            b.captured = v.control
+                        
                         end
 
                         for c, d in pairs(participants) do
@@ -247,6 +257,16 @@ local function Planet_Attack()
 
                             if b.progress ~= 100 then
 
+                                if b.progress + 20 == 0 then 
+
+                                    for _, player in pairs(player.GetAll()) do
+
+                                        player:ChatPrint(v.control .. " has lost a command post.")
+
+                                    end
+
+                                end
+
                                 b.progress = b.progress + 20
                                 net.Start("drawCommandPosts")
                                 net.WriteVector(b.origin)
@@ -262,11 +282,22 @@ local function Planet_Attack()
                         elseif attackers == 0 and defenders ~= 0 then
 
                             if b.captured == true then
+
                                 b.captured = false
-                                commandPostsCaptured = commandPostsCaptured - 1
+
                             end
-                            
-                            if b.progress ~= 0 then
+
+                            if b.progress ~= -100 then
+
+                                if b.progress - 20 == 0 then
+
+                                    for _, player in pairs(player.GetAll()) do
+
+                                        player:ChatPrint(v.attacker .. " has lost a command post.")
+
+                                    end
+
+                                end
 
                                 b.progress = b.progress - 20
                                 net.Start("drawCommandPosts")
@@ -282,14 +313,41 @@ local function Planet_Attack()
 
                         else
 
-                            net.Start("drawCommandPosts")
-                            net.WriteVector(b.origin)
-                            net.WriteInt(b.radius, 32)
-                            net.WriteString("neutral")
-                            net.WriteString(v.attacker)
-                            net.WriteString(b.control)
-                            net.Broadcast()
-                        
+                            if b.progress == -100 then 
+
+                                net.Start("drawCommandPosts")
+                                net.WriteVector(b.origin)
+                                net.WriteInt(b.radius, 32)
+                                net.WriteString("defending")
+                                net.WriteString(v.attacker)
+                                net.WriteString(v.control)
+                                net.WriteString(b.name)
+                                net.Broadcast()
+
+                            elseif b.progress == 100 then
+
+                                net.Start("drawCommandPosts")
+                                net.WriteVector(b.origin)
+                                net.WriteInt(b.radius, 32)
+                                net.WriteString("attacking")
+                                net.WriteString(v.attacker)
+                                net.WriteString(v.control)
+                                net.WriteString(b.name)
+                                net.Broadcast()
+
+                            else
+
+                                net.Start("drawCommandPosts")
+                                net.WriteVector(b.origin)
+                                net.WriteInt(b.radius, 32)
+                                net.WriteString("neutral")
+                                net.WriteString(v.attacker)
+                                net.WriteString(v.control)
+                                net.WriteString(b.name)
+                                net.Broadcast()
+                                
+                            end
+
                         end
 
                     end

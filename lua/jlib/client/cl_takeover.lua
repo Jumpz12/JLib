@@ -50,15 +50,18 @@ local function renderingSpheres(bDepth, bSkybox)
 
             if v[4] == "attacking" then
 
-                render.DrawSphere(v[2], v[3], 30, 30, Color(0, 0, 255, 10))
+                render.DrawSphere(v[2], v[3], 30, 30, Color(0, 0, 255, 30))
+                render.DrawSphere(v[2], -(v[3]), 30, 30, Color(0, 0, 255, 30))
 
             elseif v[4] == "defending" then
 
-                render.DrawSphere(v[2], v[3], 30, 30, Color(255, 0, 0, 10))
+                render.DrawSphere(v[2], v[3], 30, 30, Color(255, 0, 0, 30))
+                render.DrawSphere(v[2], -(v[3]), 30, 30, Color(255, 0, 0, 30))
 
             elseif v[4] == "neutral" then
 
-                render.DrawSphere(v[2], v[3], 30, 30, Color(117, 117, 117, 10))
+                render.DrawSphere(v[2], v[3], 30, 30, Color(117, 117, 117, 30))
+                render.DrawSphere(v[2], -(v[3]), 30, 30, Color(117, 117, 117, 30))
 
             end
         
@@ -66,15 +69,18 @@ local function renderingSpheres(bDepth, bSkybox)
 
             if v[4] == "defending" then
 
-                render.DrawSphere(v[2], v[3], 30, 30, Color(0, 0, 255, 10))
+                render.DrawSphere(v[2], v[3], 30, 30, Color(0, 0, 255, 30))
+                render.DrawSphere(v[2], -(v[3]), 30, 30, Color(0, 0, 255, 30))
 
             elseif v[4] == "attacking" then
 
-                render.DrawSphere(v[2], v[3], 30, 30, Color(255, 0, 0, 10))
+                render.DrawSphere(v[2], v[3], 30, 30, Color(255, 0, 0, 30))
+                render.DrawSphere(v[2], -(v[3]), 30, 30, Color(255, 0, 0, 30))
 
             elseif v[4] == "neutral" then
 
-                render.DrawSphere(v[2], v[3], 30, 30, Color(117, 117, 117, 10))
+                render.DrawSphere(v[2], v[3], 30, 30, Color(117, 117, 117, 30))
+                render.DrawSphere(v[2], -(v[3]), 30, 30, Color(117, 117, 117, 30))
 
             end
 
