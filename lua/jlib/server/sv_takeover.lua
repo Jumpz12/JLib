@@ -42,7 +42,7 @@ local function Takeover_Command(ply, text)
 
                 if v.name == rest then
 
-                    if v.control == "" then
+                    if v.control == "Neutral" then
 
                         if player.GetCount() < JLib.Config.PlanetControl.Neutral_Limit then
 

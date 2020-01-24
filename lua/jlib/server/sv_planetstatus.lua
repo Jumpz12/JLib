@@ -1,4 +1,4 @@
-util("openStatusMenu")
+util.AddNetworkString("openStatusMenu")
 
 local function openStatusMenu(ply, text)
     if not IsValid(ply) then return end
