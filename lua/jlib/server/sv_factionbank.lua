@@ -16,6 +16,7 @@ local function factionBankUpdate()
             end
 
             player:setDarkRPVar("money", money)
+            player:ChatPrint("Faction banks have been updated.")
 
         end
 
@@ -43,3 +44,18 @@ local function factionBankUpdate()
 
 end
 hook.Add("Initialize", "factionBankUpdate", factionBankUpdate)
+
+
+
+local function factionBankCheck(ply, text)
+
+    if not IsValid(ply) then return end
+
+    if text == "!bank" then
+
+        ply:ChatPrint("Your faction has " .. JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category].money .. ".")
+
+    end
+
+end
+hook.Add("PlayerSay", "factionBankCheck", factionBankCheck)
