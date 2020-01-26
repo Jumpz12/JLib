@@ -48,10 +48,9 @@ surface.CreateFont("JFontBody", {
         self:DockMargin(0, 0, 0, 0)
 
     end,
-    Setup = function(self, name, control, jobTable) 
+    Setup = function(self, name, control, category)
 
-        self.jobTable = jobTable
-
+        self.category = category
         self.control = control
 
         if self.PlanetName == nil or self.PlanetName ~= name then 
@@ -70,6 +69,7 @@ surface.CreateFont("JFontBody", {
     
     --PerformLayout = function(self)
     --end,
+
     Paint = function(self, w, h) 
         draw.RoundedBox(8, 0, 0, w, h, Color(61, 61, 61, 0))
     end,
@@ -81,7 +81,7 @@ surface.CreateFont("JFontBody", {
             self.Control:SetText(self.control)
             self.Paint = function(self, w, h )
 
-                if self.control == self.jobTable then
+                if self.control == self.category then
 
                     draw.RoundedBox(8, 0, 0, w, h, Color(0, 0, 255, 100))
 
@@ -102,6 +102,7 @@ surface.CreateFont("JFontBody", {
         
 
     end
+
 }
 
 planet = vgui.RegisterTable(planet, "DPanel")
@@ -130,10 +131,10 @@ local popup = {
         
     end,
 
-    Setup = function(self, table) 
+    Setup = function(self, planets, category)
 
-        self.Planets = table[1]
-        self.jobTable = table[2]
+        self.Planets = planets
+        self.category = category
         self:Think(self)
         
     end,
@@ -158,7 +159,7 @@ local popup = {
             if self.Planets[v.name] == nil then
 
                 self.Planets[v.name] = vgui.CreateFromTable(planet, self.Planets[v.name])
-                self.Planets[v.name]:Setup(v.name, v.control, self.jobTable)
+                self.Planets[v.name]:Setup(v.name, v.control, self.category)
                 self.Scroll:AddItem(self.Planets[v.name])
             
             end
@@ -166,12 +167,8 @@ local popup = {
         end
         
     end
+
 }
-
-
-
-
-
 
 popup = vgui.RegisterTable(popup, "EditablePanel")
 
@@ -180,10 +177,7 @@ net.Receive("openStatusMenu", function()
     if not IsValid(JLib.VGui.PlanetStatus) then 
 
         JLib.VGui.PlanetStatus = vgui.CreateFromTable(popup)
-        JLib.VGui.PlanetStatus:Setup({
-            {},
-            LocalPlayer():getJobTable().category,
-        })
+        JLib.VGui.PlanetStatus:Setup({}, net.ReadString())
         JLib.VGui.PlanetStatus:MakePopup()
         JLib.VGui.PlanetStatus:SetKeyBoardInputEnabled(false)
 
