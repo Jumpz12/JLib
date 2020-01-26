@@ -1,5 +1,4 @@
-"LightmappedGeneric"
+"UnlitGeneric"
 {
-	"$basetexture" "vgui/koriban"
-	"$translucent" 1
+	"$basetexture" "vgui/Korriban"
 }

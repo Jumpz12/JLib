@@ -1,13 +1,13 @@
  surface.CreateFont("JFontBody", { 
-    font = "Helvetica",
-    size = "25",
-    weight = "500"
+    font = "Arial",
+    size = 50,
+    weight = 100
  } )
 
  surface.CreateFont("JFontTitle", { 
-    font = "Helvetica",
-    size = "40",
-    weight = "500"
+    font = "Arial",
+    size = 100,
+    weight = 500
  } )
 
  local planet = {
@@ -48,7 +48,9 @@
         self:DockMargin(0, 0, 0, 0)
 
     end,
-    Setup = function(self, name, control) 
+    Setup = function(self, name, control, jobTable) 
+
+        self.jobTable = jobTable
 
         self.control = control
 
@@ -77,7 +79,27 @@
         if self.PlanetControl == nil or self.PlanetControl ~= self.control then
             self.PlanetControl = self.control
             self.Control:SetText(self.control)
+            self.Paint = function(self, w, h )
+
+                if self.control == self.jobTable then
+
+                    draw.RoundedBox(8, 0, 0, w, h, Color(0, 0, 255, 100))
+
+                elseif self.control == "Neutral" then
+
+                    draw.RoundedBox(8, 0, 0, w, h, Color(61, 61, 61, 0))
+
+                else
+
+                    draw.RoundedBox(8, 0, 0, w, h, Color(255, 0, 0, 100))
+
+                end
+
+            end
+
         end
+
+        
 
     end
 }
@@ -110,9 +132,10 @@ local popup = {
 
     Setup = function(self, table) 
 
-        self.Planets = table
+        self.Planets = table[1]
+        self.jobTable = table[2]
         self:Think(self)
-
+        
     end,
 
     PerformLayout = function(self)
@@ -135,17 +158,11 @@ local popup = {
             if self.Planets[v.name] == nil then
 
                 self.Planets[v.name] = vgui.CreateFromTable(planet, self.Planets[v.name])
-                self.Planets[v.name]:Setup(v.name, v.control)
+                self.Planets[v.name]:Setup(v.name, v.control, self.jobTable)
                 self.Scroll:AddItem(self.Planets[v.name])
             
             end
         
-        end
-
-        if input.IsKeyDown(KEY_ESCAPE) then
-
-            self:Remove()
-
         end
         
     end
@@ -163,10 +180,18 @@ net.Receive("openStatusMenu", function()
     if not IsValid(JLib.VGui.PlanetStatus) then 
 
         JLib.VGui.PlanetStatus = vgui.CreateFromTable(popup)
-        JLib.VGui.PlanetStatus:Setup({})
+        JLib.VGui.PlanetStatus:Setup({
+            {},
+            LocalPlayer():getJobTable().category,
+        })
         JLib.VGui.PlanetStatus:MakePopup()
-        JLib.VGui.PlanetStatus:SetKeyBoardInputEnabled(true)
+        JLib.VGui.PlanetStatus:SetKeyBoardInputEnabled(false)
+
+    else
+
+        JLib.VGui.PlanetStatus:Remove()
 
     end
+
 
 end)

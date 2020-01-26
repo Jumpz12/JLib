@@ -1,10 +1,10 @@
 util.AddNetworkString("openStatusMenu")
 
-local function openStatusMenu(ply, text)
-    if not IsValid(ply) then return end
-    if text == "!planets" then 
-        net.Start("openStatusMenu")
-        net.Send(ply)
-    end
+local function openStatusMenu(ply)
+
+    net.Start("openStatusMenu")
+    net.Send(ply)
+    return true
+
 end
-hook.Add("PlayerSay", "StatusMenu", openStatusMenu)
+hook.Add("ShowHelp", "StatusMenu", openStatusMenu)

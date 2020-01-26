@@ -1,5 +1,4 @@
-"LightmappedGeneric"
+"UnlitGeneric"
 {
-	"$basetexture" "vgui/illum"
-	"$translucent" 1
+	"$basetexture" "vgui/Illum"
 }
