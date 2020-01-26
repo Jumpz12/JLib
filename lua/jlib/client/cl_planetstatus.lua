@@ -1,13 +1,13 @@
- surface.CreateFont("JFontBody", { 
+surface.CreateFont("JFontTitle", {
     font = "Arial",
-    size = 50,
-    weight = 100
- } )
-
- surface.CreateFont("JFontTitle", { 
-    font = "Arial",
-    size = 100,
+    size = 35,
     weight = 500
+} )
+
+surface.CreateFont("JFontBody", {
+    font = "Arial",
+    size = 25,
+    weight = 100
  } )
 
  local planet = {
