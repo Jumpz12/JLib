@@ -1,13 +1,11 @@
-surface.CreateFont("JFontTitle", {
-    font = "Arial",
-    size = 35,
-    weight = 500
+surface.CreateFont("JFontTitle_Status", {
+    font = "CloseCaption_Normal",
+    size = 25,
 } )
 
-surface.CreateFont("JFontBody", {
-    font = "Arial",
-    size = 25,
-    weight = 100
+surface.CreateFont("JFontBody_Status", {
+    font = "CloseCaption_Normal",
+    size = 20,
  } )
 
  local planet = {
@@ -17,35 +15,47 @@ surface.CreateFont("JFontBody", {
         self.Image = self:Add("DImage")
         self.Image:Dock(LEFT)
         self.Image:DockMargin(0, 0, 0, 0)
-        self.Image:SetSize(500, 281)
+        self.Image:SetSize((ScrW() / 100) * 16, (ScrH() / 100) * 16)
+
+        self.ImgHeader = self.Image:Add("DPanel")
+        self.ImgHeader:Dock(BOTTOM)
+        self.ImgHeader:DockMargin(0, 0, 0, 0)
+        self.ImgHeader:SetHeight((ScrH() / 100) * 4)
+        self.ImgHeader.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
+
+        end
+
+        self.Name = self.ImgHeader:Add("DLabel")
+        self.Name:SetFont("JFontBody_Status")
+        self.Name:SetTextColor(Color(255, 255, 255))
+        self.Name:SetHeight((ScrH() / 100) * 4)
+        self.Name:Dock(FILL)
+        self.Name:DockMargin(0, 0, 0, 0)
+        self.Name:SetContentAlignment(5)
 
         self.Info = self:Add("DPanel")
         self.Info:Dock(FILL)
         self.Info:DockMargin(0, 0, 0, 0)
-        self.Info:SetHeight(281)
+        self.Info:SetHeight((ScrH() / 100) * 16)
         self.Info.Paint = function(self, w, h)
 
-            draw.RoundedBox(0, 0, 0, w, h, Color(61, 61, 61, 0))
+            draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 0))
 
         end
 
-        self.Name = self.Info:Add("DLabel")
-        self.Name:SetFont("JFontBody")
-        self.Name:SetTextColor(Color(255, 255, 255))
-        self.Name:Dock(TOP)
-        self.Name:DockMargin(10, 10, 0, 0)
-        self.Name:SetContentAlignment(6)
-
-        self.Control = self.Info:Add("DLabel")
-        self.Control:SetFont("JFontBody")
+        self.Control = self.Info:Add("DButton")
+        self.Control:SetFont("JFontBody_Status")
         self.Control:SetTextColor(Color(255, 255, 255))
-        self.Control:Dock(BOTTOM)
-        self.Control:DockMargin(10, 0, 0, 10)
-        self.Control:SetContentAlignment(6)
+        self.Control:Dock(FILL)
+        self.Control:SetHeight((ScrH() / 100) * 8)
+        self.Control:DockMargin((ScrW() / 100) * 0.5, 0, 0, 0)
+        self.Control:SetContentAlignment(5)
 
         self:Dock(TOP)
-        self:SetHeight(281)
-        self:DockMargin(0, 0, 0, 0)
+        self:SetHeight((ScrH() / 100) * 16)
+        self:DockMargin(((ScrW() / 100) * 0.5), 0, ((ScrW() / 100) * 0.5), 0)
 
     end,
     Setup = function(self, name, control, category)
@@ -70,8 +80,10 @@ surface.CreateFont("JFontBody", {
     --PerformLayout = function(self)
     --end,
 
-    Paint = function(self, w, h) 
-        draw.RoundedBox(8, 0, 0, w, h, Color(61, 61, 61, 0))
+    Paint = function(self, w, h)
+
+        draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 0))
+
     end,
 
     Think = function(self)
@@ -79,19 +91,19 @@ surface.CreateFont("JFontBody", {
         if self.PlanetControl == nil or self.PlanetControl ~= self.control then
             self.PlanetControl = self.control
             self.Control:SetText(self.control)
-            self.Paint = function(self, w, h )
+            self.Control.Paint = function(self, w, h)
 
                 if self.control == self.category then
 
-                    draw.RoundedBox(8, 0, 0, w, h, Color(0, 0, 255, 100))
+                    draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 255, 200))
 
                 elseif self.control == "Neutral" then
 
-                    draw.RoundedBox(8, 0, 0, w, h, Color(61, 61, 61, 0))
+                    draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
 
                 else
 
-                    draw.RoundedBox(8, 0, 0, w, h, Color(255, 0, 0, 100))
+                    draw.RoundedBox(0, 0, 0, w, h, Color(255, 0, 0, 200))
 
                 end
 
@@ -113,21 +125,43 @@ local popup = {
 
         self.Header = self:Add("Panel")
         self.Header:Dock(TOP)
-        self.Header:SetHeight(50)
-        
+        self.Header:SetHeight((ScrH() / 100) * 5)
+        self.Header.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
+
+        end
 
         self.Title = self.Header:Add("DLabel")
-        self.Title:SetFont("JFontTitle")
-        self.Title:SetText("Planet Status")
+        self.Title:SetFont("JFontTitle_Status")
+        self.Title:SetText("PLANET STATUS")
         self.Title:SetTextColor(Color(255, 255, 255, 255))
         self.Title:Dock(TOP)
-        self.Title:SetHeight(50)
+        self.Title:SetHeight((ScrH() / 100) * 5)
         self.Title:SetContentAlignment(5)
         self.Title:DockMargin(0, 0, 0, 0)
 
         self.Scroll = self:Add("DScrollPanel")
         self.Scroll:Dock(FILL)
-        self.Scroll:DockMargin(0, 0, 0, 0)
+        self.Scroll:DockMargin(0, ((ScrW() / 100) * 0.5), ((ScrW() / 100) * 0.5), ((ScrW() / 100) * 0.5))
+
+        local bar = self.Scroll:GetVBar()
+
+        function bar:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(28, 28, 28, 0))
+        end
+
+        function bar.btnUp:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(28, 28, 28, 0))
+        end
+
+        function bar.btnDown:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(28, 28, 28, 0))
+        end
+
+        function bar.btnGrip:Paint( w, h )
+            draw.RoundedBox( 5, 0, 0, w, h, Color(28, 28, 28, 255))
+        end
         
     end,
 
@@ -135,20 +169,24 @@ local popup = {
 
         self.Planets = planets
         self.category = category
+
         self:Think(self)
         
     end,
 
     PerformLayout = function(self)
 
-        self:SetSize(700, ScrH() - 100)
-        self:SetPos((ScrW()/2) - (700/2), (ScrH()/2) - ((ScrH() - 100) /2))
+        local width = (ScrW() / 100) * 30
+        local height = (ScrH() / 100) * 82
+
+        self:SetSize(width, height)
+        self:SetPos((ScrW()/2) - (width/2), (ScrH()/2) - (height/2))
 
     end,
 
-    Paint = function(self, w, h) 
+    Paint = function(self, w, h)
 
-        draw.RoundedBox(8, 0, 0, w, h, Color(61, 61, 61, 180))
+        draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
 
     end,
 

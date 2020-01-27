@@ -1,8 +1,7 @@
-surface.CreateFont("JFontTitle", { 
-    font = "Helvetica",
-    size = "25",
-    weight = "500"
- } )
+surface.CreateFont("JFontTitle_Allies", {
+    font = "CloseCaption_Normal",
+    size = 25,
+} )
 
 local popup = {
 
