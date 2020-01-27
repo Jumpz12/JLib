@@ -100,25 +100,65 @@ local planet = {
 
                 self.Control.Paint = function(self, w, h)
 
-                    draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 255, 200))
+                    if not self:IsHovered() then
 
+                        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 255, 200))
+
+                    else
+
+                        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 255, 150))
+
+                    end
+
+                end
+
+                self.Control.DoClick = function()
+                    -- Nothing
                 end
 
             elseif self.control == "Neutral" then
 
                 self.Control.Paint = function(self, w, h)
 
-                    draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
+                    if not self:IsHovered() then
+
+                        draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
+
+                    else
+
+                        draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 150))
+
+                    end
 
                 end
 
                 self.Control:SetText("Neutral")
 
+                self.Control.DoClick = function()
+
+                    LocalPlayer():ConCommand("say !takeover " .. self.PlanetName)
+
+                end
+
             else
 
                 self.Control.Paint = function(self, w, h)
 
-                    draw.RoundedBox(0, 0, 0, w, h, Color(255, 0, 0, 200))
+                    if not self:IsHovered() then
+
+                        draw.RoundedBox(0, 0, 0, w, h, Color(255, 0, 0, 200))
+
+                    else
+
+                        draw.RoundedBox(0, 0, 0, w, h, Color(255, 0, 0, 150))
+
+                    end
+
+                end
+
+                self.Control.DoClick = function()
+
+                    LocalPlayer():ConCommand("say !takeover " .. self.PlanetName)
 
                 end
 
