@@ -14,7 +14,7 @@ local planet = {
 
         self.Image = self:Add("DImage")
         self.Image:Dock(LEFT)
-        self.Image:DockMargin(0, 0, 0, 0)
+        self.Image:DockMargin(1, 1, 0, 1)
         self.Image:SetSize((ScrW() / 100) * 16, (ScrH() / 100) * 16)
 
         self.ImgHeader = self.Image:Add("DPanel")
@@ -37,7 +37,7 @@ local planet = {
 
         self.Info = self:Add("DPanel")
         self.Info:Dock(FILL)
-        self.Info:DockMargin(0, 0, 0, 0)
+        self.Info:DockMargin(0, 1, 1, 1)
         self.Info:SetHeight((ScrH() / 100) * 16)
         self.Info.Paint = function(self, w, h)
 
@@ -50,12 +50,12 @@ local planet = {
         self.Control:SetTextColor(Color(255, 255, 255))
         self.Control:Dock(FILL)
         self.Control:SetHeight((ScrH() / 100) * 8)
-        self.Control:DockMargin((ScrW() / 100) * 0.5, 0, 0, 0)
+        self.Control:DockMargin(0, 0, 0, 0)
         self.Control:SetContentAlignment(5)
 
         self:Dock(TOP)
         self:SetHeight((ScrH() / 100) * 16)
-        self:DockMargin(((ScrW() / 100) * 0.5), 0, ((ScrW() / 100) * 0.5), 0)
+        self:DockMargin(((ScrW() / 100) * 0.5), ((ScrH() / 100) * 0.5), ((ScrW() / 100) * 0.5), 0)
 
     end,
 
@@ -84,6 +84,8 @@ local planet = {
     Paint = function(self, w, h)
 
         draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 0))
+        surface.SetDrawColor(Color(255, 255, 255, 255))
+        surface.DrawOutlinedRect(0, 0, w, h)
 
     end,
 
@@ -138,10 +140,13 @@ local popup = {
 
         self.Header = self:Add("Panel")
         self.Header:Dock(TOP)
+        self.Header:DockMargin(((ScrW() / 100) * 0.5), 0, ((ScrW() / 100) * 0.5), 0)
         self.Header:SetHeight((ScrH() / 100) * 5)
         self.Header.Paint = function(self, w, h)
 
-            draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
+            --draw.RoundedBox(0, 0, 0, w, h, Color(255, 255, 255, 255))
+            surface.SetDrawColor(Color(255, 255, 255))
+            surface.DrawLine( 0, h - 1, w, h - 1)
 
         end
 
@@ -173,7 +178,7 @@ local popup = {
         end
 
         function bar.btnGrip:Paint( w, h )
-            draw.RoundedBox( 5, 0, 0, w, h, Color(28, 28, 28, 255))
+            draw.RoundedBox( 0, 0, 0, w - 2, h + 20, Color(255, 255, 255, 255))
         end
 
     end,
