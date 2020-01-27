@@ -109,3 +109,20 @@ net.Receive("removeCommandPosts", function()
     end
 
 end)
+
+net.Receive("takeover_writeToMemory", function()
+
+    local name = net.ReadString()
+    local control = net.ReadString()
+
+    for k, v in pairs(JLib.Config.Gravity.Spheres) do
+
+        if v.name == name then
+
+            v.control = control
+
+        end
+
+    end
+
+end)
