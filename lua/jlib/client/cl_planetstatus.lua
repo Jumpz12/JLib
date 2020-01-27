@@ -6,11 +6,11 @@ surface.CreateFont("JFontTitle_Status", {
 surface.CreateFont("JFontBody_Status", {
     font = "CloseCaption_Normal",
     size = 20,
- } )
+} )
 
- local planet = {
+local planet = {
 
-    Init = function(self) 
+    Init = function(self)
 
         self.Image = self:Add("DImage")
         self.Image:Dock(LEFT)
@@ -58,16 +58,17 @@ surface.CreateFont("JFontBody_Status", {
         self:DockMargin(((ScrW() / 100) * 0.5), 0, ((ScrW() / 100) * 0.5), 0)
 
     end,
+
     Setup = function(self, name, control, category)
 
         self.category = category
         self.control = control
 
-        if self.PlanetName == nil or self.PlanetName ~= name then 
+        if self.PlanetName == nil or self.PlanetName ~= name then
             self.PlanetName = name
             self.Name:SetText(name)
         end
-        
+
         if self.PlanetImage == nil or self.PlanetImage ~= true then
             self.PlanetImage = true
             self.Image:SetImage("vgui/" .. name)
@@ -76,7 +77,7 @@ surface.CreateFont("JFontBody_Status", {
         self:Think(self)
 
     end,
-    
+
     --PerformLayout = function(self)
     --end,
 
@@ -90,18 +91,30 @@ surface.CreateFont("JFontBody_Status", {
 
         if self.PlanetControl == nil or self.PlanetControl ~= self.control then
             self.PlanetControl = self.control
-            self.Control:SetText(self.control)
-            self.Control.Paint = function(self, w, h)
 
-                if self.control == self.category then
+            self.Control:SetText("Controlled")
+
+            if self.control == self.category then
+
+                self.Control.Paint = function(self, w, h)
 
                     draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 255, 200))
 
-                elseif self.control == "Neutral" then
+                end
+
+            elseif self.control == "Neutral" then
+
+                self.Control.Paint = function(self, w, h)
 
                     draw.RoundedBox(0, 0, 0, w, h, Color(28, 28, 28, 200))
 
-                else
+                end
+
+                self.Control:SetText("Neutral")
+
+            else
+
+                self.Control.Paint = function(self, w, h)
 
                     draw.RoundedBox(0, 0, 0, w, h, Color(255, 0, 0, 200))
 
@@ -111,7 +124,7 @@ surface.CreateFont("JFontBody_Status", {
 
         end
 
-        
+
 
     end
 
@@ -121,7 +134,7 @@ planet = vgui.RegisterTable(planet, "DPanel")
 
 local popup = {
 
-    Init = function(self) 
+    Init = function(self)
 
         self.Header = self:Add("Panel")
         self.Header:Dock(TOP)
@@ -162,7 +175,7 @@ local popup = {
         function bar.btnGrip:Paint( w, h )
             draw.RoundedBox( 5, 0, 0, w, h, Color(28, 28, 28, 255))
         end
-        
+
     end,
 
     Setup = function(self, planets, category)
@@ -171,7 +184,7 @@ local popup = {
         self.category = category
 
         self:Think(self)
-        
+
     end,
 
     PerformLayout = function(self)
@@ -192,18 +205,18 @@ local popup = {
 
     Think = function(self, w, h)
 
-        for k, v in pairs(JLib.Config.Gravity.Spheres) do 
+        for k, v in pairs(JLib.Config.Gravity.Spheres) do
 
             if self.Planets[v.name] == nil then
 
                 self.Planets[v.name] = vgui.CreateFromTable(planet, self.Planets[v.name])
                 self.Planets[v.name]:Setup(v.name, v.control, self.category)
                 self.Scroll:AddItem(self.Planets[v.name])
-            
+
             end
-        
+
         end
-        
+
     end
 
 }
@@ -212,7 +225,7 @@ popup = vgui.RegisterTable(popup, "EditablePanel")
 
 net.Receive("openStatusMenu", function()
 
-    if not IsValid(JLib.VGui.PlanetStatus) then 
+    if not IsValid(JLib.VGui.PlanetStatus) then
 
         JLib.VGui.PlanetStatus = vgui.CreateFromTable(popup)
         JLib.VGui.PlanetStatus:Setup({}, net.ReadString())

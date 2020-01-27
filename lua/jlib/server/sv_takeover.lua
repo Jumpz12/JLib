@@ -1,6 +1,6 @@
 util.AddNetworkString("drawCommandPosts")
 util.AddNetworkString("removeCommandPosts")
-
+util.AddNetworkString("takeover_writeToMemory")
 
 local function Takeover_Command(ply, text)
 
@@ -51,6 +51,11 @@ local function Takeover_Command(ply, text)
                         else
 
                             v.control = ply:getJobTable().category
+
+                            net.Start("takeover_writeToMemory")
+                            net.WriteString(v.name)
+                            net.WriteString(ply:getJobTable().category)
+                            net.Broadcast()
 
                             for a, b in pairs(player.GetAll()) do
 
