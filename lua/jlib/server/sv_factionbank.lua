@@ -20,7 +20,7 @@ local function factionBankUpdate()
 
         end
 
-        if v.control == "" then continue end
+        if v.control == "Neutral" then continue end
 
         for a, b in pairs(JLib.Config.PlanetControl.Factions) do
 
