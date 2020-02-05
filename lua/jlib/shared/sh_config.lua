@@ -449,6 +449,12 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
     }
 
+    --[[
+
+        Do not touch the BELOW code.
+
+    ]]
+
     for _, job in pairs(RPExtraTeams) do
 
         if JLib.Config.PlanetControl.Factions["Lightside"][job.category] then
@@ -467,6 +473,12 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
     end
 
+    --[[
+
+        Do not touch the ABOVE code.
+
+    ]]
+
 end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
 JLib.Config.PlanetControl.Neutral_Limit = 1 -- How many players must be on the server to take a neutral planet.
@@ -474,3 +486,7 @@ JLib.Config.PlanetControl.Update_Time = 5 -- How often takeover progress is upda
 
 JLib.Config.PlanetControl.BankUpdateTime = 15 --How many minutes between money being added to the faction banks
 
+JLib.Config.Mercenary = JLib.Config.Mercenary or {}
+
+JLib.Config.Mercenary.BasePrice = 250 --How much do you want the first chosen mercenary to cost.
+JLib.Config.Mercenary.Multiplier = 2.25 --How much do you want it to times each total by each extra mercenary you choose.
