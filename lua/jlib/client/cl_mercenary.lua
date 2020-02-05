@@ -84,8 +84,14 @@ local popup = {
     Setup = function(self)
 
         self:Think(self)
-        self.Model.Entity:SetModelScale(self.Model.Entity:GetModelScale() * 1.25, 1)
-        function self.Model:LayoutEntity(Entity) return end
+        self.Model:SetCamPos(Vector(30, 30, 50))
+        self.Model:SetLookAng(Angle(10, 225, 0))
+        function self.Model:LayoutEntity(ent)
+            ent:SetAngles(Angle(0, 90, 0))
+            ent:SetSequence(ent:LookupSequence("phalanx_b_idle"))
+            self:RunAnimation()
+            return
+        end
 
     end,
 
