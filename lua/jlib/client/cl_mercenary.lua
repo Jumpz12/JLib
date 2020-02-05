@@ -8,6 +8,58 @@ surface.CreateFont("JFontBody_Merc", {
     size = 15,
 } )
 
+local bounty = {
+
+    Init = function(self)
+
+        self.Button = self:Add("DButton")
+        self.Button:Dock(FILL)
+        self.Button:DockMargin(0, 0, 0, 0)
+        self.Button:SetTextColor(Color(255, 255, 255, 255))
+        self.Button:SetFont("JFontTitle_Merc")
+        self.Button.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 166))
+
+        end
+
+        self:Dock(TOP)
+        self:SetHeight((ScrH() / 100) * 6)
+        self:DockMargin((ScrW() / 100) * 0.3, (ScrH() / 100) * 0.4, (ScrW() / 100) * 0.3, 0)
+
+    end,
+
+    Setup = function(self, name, job)
+
+        self.Name = name
+        self.Job = job
+
+        self.Button:SetText(name)
+
+        self:Think(self)
+
+    end,
+
+    Paint = function(self, w, h)
+
+        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
+
+    end,
+
+    Think = function(self)
+
+        if self.Button:IsHovered() and JLib.VGui.MercMenu.Model:GetModel() ~= self.Job.model then
+
+            JLib.VGui.MercMenu.Model:SetModel(self.Job.model)
+
+        end
+
+    end
+
+}
+
+bounty = vgui.RegisterTable(bounty, "DPanel")
+
 local popup = {
 
     Init = function(self)
@@ -24,7 +76,7 @@ local popup = {
 
         self.Title = self.Header:Add("DLabel")
         self.Title:SetFont("JFontTitle_Merc")
-        self.Title:SetText("PLANET STATUS")
+        self.Title:SetText("MERCENARY MENU")
         self.Title:SetTextColor(Color(255, 255, 255, 255))
         self.Title:Dock(TOP)
         self.Title:SetHeight((ScrH() / 100) * 4)
@@ -68,6 +120,28 @@ local popup = {
 
         end
 
+        self.Scroll = self.MidContain:Add("DScrollPanel")
+        self.Scroll:Dock(FILL)
+        self.Scroll:DockMargin(0, 0, 0, 0)
+
+        local bar = self.Scroll:GetVBar()
+
+        function bar:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(0, 0, 0, 0))
+        end
+
+        function bar.btnUp:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(0, 0, 0, 0))
+        end
+
+        function bar.btnDown:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(0, 0, 0, 0))
+        end
+
+        function bar.btnGrip:Paint( w, h )
+            draw.RoundedBox( 0, 0, 0, w, h, Color(0, 0, 0, 0))
+        end
+
         self.RightContain = self.Body:Add("Panel")
         self.RightContain:Dock(RIGHT)
         self.RightContain:DockMargin((ScrW() / 100) * 0.3, (ScrH() / 100) * 0.5, (ScrW() / 100) * 0.2, (ScrH() / 100) * 0.5)
@@ -80,8 +154,10 @@ local popup = {
         end
 
     end,
-
+    --lua_run local i = 1 for k, v in pairs(player.GetAll()) do if v:IsBot() then v:SetTeam(20 + i) i = i + 1 end end
     Setup = function(self)
+
+        self.Cartel = {}
 
         self:Think(self)
         self.Model:SetCamPos(Vector(30, 30, 50))
@@ -113,7 +189,27 @@ local popup = {
 
     Think = function(self, w, h)
 
+        for _, p in pairs(player.GetAll()) do
 
+            if p:getJobTable().category == "Hutt Cartel" then
+
+                if self.Cartel[p:getJobTable().name] == nil then
+
+                    if self.Model:GetModel() == LocalPlayer():GetModel() then
+
+                        self.Model:SetModel(p:getJobTable().model)
+
+                    end
+
+                    self.Cartel[p:getJobTable().name] = vgui.CreateFromTable(bounty, self.Cartel[p:getJobTable().name])
+                    self.Cartel[p:getJobTable().name]:Setup(p:Name(), {name = p:getJobTable().name, desc = p:getJobTable().description, model = p:getJobTable().model})
+                    self.Scroll:AddItem(self.Cartel[p:getJobTable().name])
+
+                end
+
+            end
+
+        end
 
     end
 
