@@ -270,7 +270,7 @@ popup = vgui.RegisterTable(popup, "EditablePanel")
 
 net.Receive("openStatusMenu", function()
 
-    if not IsValid(JLib.VGui.PlanetStatus) then
+    if not IsValid(JLib.VGui.PlanetStatus) and not IsValid(JLib.VGui.MercMenu) then
 
         JLib.VGui.PlanetStatus = vgui.CreateFromTable(popup)
         JLib.VGui.PlanetStatus:Setup({}, net.ReadString())

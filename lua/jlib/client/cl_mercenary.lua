@@ -219,7 +219,7 @@ popup = vgui.RegisterTable(popup, "EditablePanel")
 
 net.Receive("openMercenaryMenu", function()
 
-    if not IsValid(JLib.VGui.MercMenu) then
+    if not IsValid(JLib.VGui.MercMenu) and not IsValid(JLib.VGui.PlanetStatus) then
 
         JLib.VGui.MercMenu = vgui.CreateFromTable(popup)
         JLib.VGui.MercMenu:Setup()
