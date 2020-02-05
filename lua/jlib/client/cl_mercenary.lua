@@ -17,11 +17,6 @@ local bounty = {
         self.Button:DockMargin(0, 0, 0, 0)
         self.Button:SetTextColor(Color(255, 255, 255, 255))
         self.Button:SetFont("JFontTitle_Merc")
-        self.Button.Paint = function(self, w, h)
-
-            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 166))
-
-        end
 
         self:Dock(TOP)
         self:SetHeight((ScrH() / 100) * 6)
@@ -35,6 +30,21 @@ local bounty = {
         self.Job = job
 
         self.Button:SetText(name)
+        self.Button.Lerp = 0
+        self.Button.DoClick = function()
+
+            self.Button.Selected = not self.Button.Selected
+            if self.Button.Selected then
+
+                surface.PlaySound("UI/buttonclick.wav")
+
+            else
+
+                surface.PlaySound("UI/buttonclickrelease.wav")
+
+            end
+
+        end
 
         self:Think(self)
 
@@ -50,7 +60,35 @@ local bounty = {
 
         if self.Button:IsHovered() and JLib.VGui.MercMenu.Model:GetModel() ~= self.Job.model then
 
+            surface.PlaySound("UI/buttonrollover.wav")
             JLib.VGui.MercMenu.Model:SetModel(self.Job.model)
+            JLib.VGui.MercMenu.JobName:SetText(self.Job.name)
+
+        end
+
+        self.Button.Paint = function(self, w, h)
+
+            if self:IsHovered() then
+
+                draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 115))
+
+            else
+
+                draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 166))
+
+            end
+
+            if self.Selected then
+
+                self.Lerp = math.min(w, self.Lerp + 10)
+                draw.RoundedBox(0, 0, 0, self.Lerp, h, Color(0, 200, 0, 115))
+
+            else
+
+                self.Lerp = math.max(0, self.Lerp - 10)
+                draw.RoundedBox(0, 0, 0, self.Lerp, h, Color(0, 200, 0, 115))
+
+            end
 
         end
 
@@ -153,6 +191,24 @@ local popup = {
 
         end
 
+        self.JobHeader = self.RightContain:Add("Panel")
+        self.JobHeader:SetHeight((ScrH() / 100) * 6)
+        self.JobHeader:Dock(TOP)
+        self.JobHeader:DockMargin((ScrW() / 100) * 0.3, (ScrH() / 100) * 0.4, (ScrW() / 100) * 0.3, 0)
+        self.JobHeader.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 166))
+
+        end
+
+        self.JobName = self.JobHeader:Add("DLabel")
+        self.JobName:SetFont("JFontTitle_Merc")
+        self.JobName:SetTextColor(Color(255, 255, 255, 255))
+        self.JobName:Dock(TOP)
+        self.JobName:SetHeight((ScrH() / 100) * 6)
+        self.JobName:SetContentAlignment(5)
+        self.JobName:DockMargin(0, 0, 0, 0)
+
     end,
     --lua_run local i = 1 for k, v in pairs(player.GetAll()) do if v:IsBot() then v:SetTeam(20 + i) i = i + 1 end end
     Setup = function(self)
@@ -198,6 +254,7 @@ local popup = {
                     if self.Model:GetModel() == LocalPlayer():GetModel() then
 
                         self.Model:SetModel(p:getJobTable().model)
+                        self.JobName:SetText(p:getJobTable().name)
 
                     end
 
