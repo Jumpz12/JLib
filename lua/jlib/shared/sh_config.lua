@@ -449,6 +449,23 @@ hook.Add("PostGamemodeLoaded", "Table_Load", function()
 
     }
 
+    for _, job in pairs(RPExtraTeams) do
+
+        if JLib.Config.PlanetControl.Factions["Lightside"][job.category] then
+
+            job.side = "Lightside"
+
+        elseif JLib.Config.PlanetControl.Factions["Darkside"][job.category] then
+
+            job.side = "Darkside"
+
+        else
+
+            job.side = "Neutral"
+
+        end
+
+    end
 
 end )
 JLib.Config.PlanetControl.Minimum = 4 -- How many a side must have for a raid to be activated
