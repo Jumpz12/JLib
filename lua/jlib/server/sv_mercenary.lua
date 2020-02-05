@@ -9,19 +9,7 @@ local function mercenaryCommand(ply)
 
     end
 
-    local found = false
-
-    for k, v in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Allies"]) do
-
-        if ply:Team() == v then
-
-            found = true
-
-        end
-
-    end
-
-    if not found then
+    if not table.HasValue(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"], ply:Team()) then
 
         ply:ChatPrint("You need to be a leader to hire mercenaries!")
         return true
@@ -36,5 +24,3 @@ local function mercenaryCommand(ply)
 
 end
 hook.Add("ShowTeam", "mercenaryCommand", mercenaryCommand)
-
-net.Receive(messageName, callback)
