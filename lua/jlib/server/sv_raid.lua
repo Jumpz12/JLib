@@ -16,6 +16,10 @@ local function raidCommand(ply, text)
         end
     end
 
+    if ply:GetPData("raidLeader", false) then
+        ply:ChatPrint("You are already the leader of a raid")
+    end
+
     for _, player in pairs(player.GetAll()) do
         for _, leader in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"]) do
             if player:Team() == leader then
@@ -56,6 +60,8 @@ net.Receive("receiveRaidResponse", function()
             end
         end
 
+        ply:SetPData("raidLeader", planet)
+
         timer.Create(planet.."raidTimer", JLib.Config.PlanetControl.SmallRaidTime, 1, function()
     
             for _, player in pairs(player.GetAll()) do
@@ -68,6 +74,8 @@ net.Receive("receiveRaidResponse", function()
                     v.raid = false
                 end
             end
+
+            ply:SetPData("raidLeader", false)
         
         end)
     
@@ -76,3 +84,36 @@ net.Receive("receiveRaidResponse", function()
     end
 
 end)
+
+local function raidEndCommand(ply, text)
+
+    if text == "!raidend" then
+
+        if ply:GetPData("raidLeader", false) then
+
+            if timer.Exists(ply:GetPData() .. "raidTimer") then
+
+                timer.Remove(ply:GetPData() .. "raidTimer")
+
+                for _, player in pairs(player.GetAll()) do
+                    player:ChatPrint("The raid for " .. planet .. " has ended!")
+                    
+                end
+    
+                for k, v in pairs(JLib.Config.Gravity.Spheres) do
+                    if v.name == planet then
+                        v.raid = false
+                    end
+                end
+    
+                ply:SetPData("raidLeader", false)
+            
+            end
+        
+        end
+
+    end
+
+end
+
+hook.Add("PlayerSay", "raidEndCommand", raidEndCommand)
