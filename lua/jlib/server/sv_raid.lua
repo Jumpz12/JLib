@@ -101,7 +101,7 @@ local function raidEndCommand(ply, text)
                 end
     
                 for k, v in pairs(JLib.Config.Gravity.Spheres) do
-                    if v.name == planet then
+                    if v.name == ply:GetPData("raidLeader", false) then
                         v.raid = false
                     end
                 end
