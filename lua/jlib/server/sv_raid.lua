@@ -8,24 +8,39 @@ local function raidCommand(ply, text)
     local leader
 
     for k, v in pairs(JLib.Config.Gravity.Spheres) do
+
         if v.name == planet then
+
             if v.raid == true then
+
                 ply:ChatPrint("There is already a raid in progress for this planet")
+
                 return
+
             end
+
         end
+        
     end
 
     if ply:GetPData("raidLeader", false) then
+
         ply:ChatPrint("You are already the leader of a raid")
+
     end
 
     for _, player in pairs(player.GetAll()) do
+
         for _, leader in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"]) do
+
             if player:Team() == leader then
+
                 leader = player
+
             end
+
         end
+
     end
 
     if args[1] == "!raid" then
@@ -51,13 +66,19 @@ net.Receive("receiveRaidResponse", function()
     if response then
 
         for _, player in pairs(player.GetAll()) do
+
             player:ChatPrint(ply:Name() .. " of faction " .. plyCategory .. " has started a raid for " .. planet .. "!")
+
         end
 
         for k, v in pairs(JLib.Config.Gravity.Spheres) do
+
             if v.name == planet then
+
                 v.raid = true
+
             end
+
         end
 
         ply:SetPData("raidLeader", planet)
@@ -65,14 +86,19 @@ net.Receive("receiveRaidResponse", function()
         timer.Create(planet.."raidTimer", JLib.Config.PlanetControl.SmallRaidTime, 1, function()
     
             for _, player in pairs(player.GetAll()) do
+
                 player:ChatPrint("The raid for " .. planet .. " has ended!")
                 
             end
 
             for k, v in pairs(JLib.Config.Gravity.Spheres) do
+
                 if v.name == planet then
+
                     v.raid = false
+
                 end
+
             end
 
             ply:SetPData("raidLeader", false)
@@ -80,7 +106,9 @@ net.Receive("receiveRaidResponse", function()
         end)
     
     else
+
         ply:ChatPrint("Your raid request has been denied")
+        
     end
 
 end)
@@ -96,14 +124,19 @@ local function raidEndCommand(ply, text)
                 timer.Remove(ply:GetPData() .. "raidTimer")
 
                 for _, player in pairs(player.GetAll()) do
+
                     player:ChatPrint("The raid for " .. planet .. " has ended!")
                     
                 end
     
                 for k, v in pairs(JLib.Config.Gravity.Spheres) do
+
                     if v.name == ply:GetPData("raidLeader", false) then
+
                         v.raid = false
+
                     end
+
                 end
     
                 ply:SetPData("raidLeader", false)

@@ -11,6 +11,7 @@ local function mercenaryCommand(ply)
     if ply:getJobTable().category == "Hutt Cartel" then
 
         ply:ChatPrint("You are to be hired, not hire!")
+
         return true
 
     end
@@ -18,6 +19,7 @@ local function mercenaryCommand(ply)
     if ply:getJobTable().side == "Neutral" then
 
         ply:ChatPrint("You cannot hire mercenaries")
+
         return true
 
     end
@@ -25,6 +27,7 @@ local function mercenaryCommand(ply)
     if not table.HasValue(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"], ply:Team()) then
 
         ply:ChatPrint("You need to be a leader to hire mercenaries!")
+        
         return true
 
     end
@@ -33,6 +36,7 @@ local function mercenaryCommand(ply)
     net.WriteString(ply:getJobTable().category)
     net.WriteInt(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category].money, 32)
     net.Send(ply)
+    
     return true
 
 end
@@ -45,6 +49,7 @@ net.Receive("receiveMercenaryChoices", function(len, ply)
     local type = net.ReadString()
     local faction = ply:getJobTable().category
     local side = ply:getJobTable().side
+
     moneyTable[ply:getJobTable().category] = net.ReadTable()
     count[ply:getJobTable().category] = #choices
     
