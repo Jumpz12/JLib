@@ -8,6 +8,13 @@ local function mercenaryCommand(ply)
         return true
 
     end
+    
+    if ply:getJobTable().side == "Neutral" then
+
+        ply:ChatPrint("You cannot hire mercenaries")
+        return true
+
+    end
 
     if not table.HasValue(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"], ply:Team()) then
 
