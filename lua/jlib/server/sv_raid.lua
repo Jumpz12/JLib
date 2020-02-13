@@ -28,10 +28,21 @@ local function raidCommand(ply, text)
         if ply:GetPData("raidLeader", false) then
     
             ply:ChatPrint("You are already the leader of a raid")
+
+            return
     
         end
+        
     
         for _, player in pairs(player.GetAll()) do
+
+            if JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"] == nil then
+                
+                ply:ChatPrint("You are not a member of a faction!")
+
+                return
+            
+            end
     
             for _, leader in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"]) do
     
