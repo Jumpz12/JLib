@@ -7,43 +7,43 @@ local function raidCommand(ply, text)
     local planet = table.concat(args, " ", 2)
     local leader
 
-    for k, v in pairs(JLib.Config.Gravity.Spheres) do
-
-        if v.name == planet then
-
-            if v.raid == true then
-
-                ply:ChatPrint("There is already a raid in progress for this planet")
-
-                return
-
-            end
-
-        end
-        
-    end
-
-    if ply:GetPData("raidLeader", false) then
-
-        ply:ChatPrint("You are already the leader of a raid")
-
-    end
-
-    for _, player in pairs(player.GetAll()) do
-
-        for _, leader in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"]) do
-
-            if player:Team() == leader then
-
-                leader = player
-
-            end
-
-        end
-
-    end
-
     if args[1] == "!raid" then
+
+        for k, v in pairs(JLib.Config.Gravity.Spheres) do
+
+            if v.name == planet then
+    
+                if v.raid == true then
+    
+                    ply:ChatPrint("There is already a raid in progress for this planet")
+    
+                    return
+    
+                end
+    
+            end
+            
+        end
+    
+        if ply:GetPData("raidLeader", false) then
+    
+            ply:ChatPrint("You are already the leader of a raid")
+    
+        end
+    
+        for _, player in pairs(player.GetAll()) do
+    
+            for _, leader in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"]) do
+    
+                if player:Team() == leader then
+    
+                    leader = player
+    
+                end
+    
+            end
+    
+        end
 
         net.Start("sendToRaidLeader")
         net.WriteEntity(ply)
