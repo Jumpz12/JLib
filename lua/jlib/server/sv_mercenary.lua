@@ -3,8 +3,7 @@ util.AddNetworkString("receiveMercenaryChoices")
 util.AddNetworkString("sendMercenaryAcceptance")
 util.AddNetworkString("receiveMercenaryAcceptance")
 
-local moneyTable = {}
-local count = {}
+local cache = {}
 
 local function mercenaryCommand(ply)
 
@@ -48,20 +47,15 @@ net.Receive("receiveMercenaryChoices", function(len, ply)
     local choices = net.ReadTable()
     local type = net.ReadString()
     local faction = ply:getJobTable().category
-    local side = ply:getJobTable().side
 
-    moneyTable[ply:getJobTable().category] = net.ReadTable()
-    count[ply:getJobTable().category] = #choices
-    
-    
-    
+    cache[ply:getJobTable().category] = {ply:getJobTable().side, #choices, net.ReadTable()}
 
     for _, player in choices do
 
         net.Start("sendMercenaryAcceptance")
         net.WriteString(faction)
         net.WriteString(type) --Type of hiring
-        net.WriteInt(info[2], 32)
+        net.WriteTable(cache)
         net.Send(player)
     
     end
@@ -72,7 +66,6 @@ net.Receive("receiveMercenaryAcceptance", function(len, ply)
 
     local accept = net.ReadBool()
     local faction = net.ReadString()
-    local side = net.ReadString()
 
     if accept then
 
@@ -82,19 +75,7 @@ net.Receive("receiveMercenaryAcceptance", function(len, ply)
 
             if player:getJobTable().category == faction then
 
-                player:ChatPrint(ply:Name() .. " has accepted your request!")
-
-            end
-
-        end
-
-        if count[faction] - 1 == 0 then 
-
-            count[faction] = count[faction] - 1
-
-            for k, v in pairs(money[faction]) do
-
-                JLib.Config.PlanetControl.Factions[side][faction].money = JLib.Config.PlanetControl.Factions[side][faction].money - money[#money]
+                player:ChatPrint(ply:Name() .. " has accepted your contract!")
 
             end
 
@@ -102,27 +83,23 @@ net.Receive("receiveMercenaryAcceptance", function(len, ply)
 
     else
 
-        for _, player in pairs(player.GetAll()) do
+        table.remove(cache[faction][3])
 
-            if player:getJobTable().category == faction then
+        if cache[faction][2] - 1 == 0 then 
 
-                player:ChatPrint(ply:Name() .. " has declined your request!")
+            cache[faction][2] = cache[faction][2] - 1
 
-            end
+            JLib.Config.PlanetControl.Factions[cache[faction][1]][faction].money = JLib.Config.PlanetControl.Factions[cache[faction][1]][faction].money - cache[faction][3][#cache[faction][3]]
 
         end
 
-        table.remove(moneyTable[faction])
+    end
 
-        if count[faction] - 1 == 0 then 
+    for _, player in pairs(player.GetAll()) do
 
-            count[faction] = count[faction] - 1
+        if player:getJobTable().category == faction then
 
-            for k, v in pairs(money[faction]) do
-
-                JLib.Config.PlanetControl.Factions[side][faction].money = JLib.Config.PlanetControl.Factions[side][faction].money - money[#money]
-
-            end
+            player:ChatPrint(ply:Name() .. " has declined your contract!")
 
         end
 
