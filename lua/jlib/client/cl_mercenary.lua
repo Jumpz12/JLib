@@ -24,12 +24,13 @@ local bounty = {
 
     end,
 
-    Setup = function(self, name, job)
+    Setup = function(self, p, job)
 
-        self.Name = name
+        self.Entity = p
+        self.Name = p:Name()
         self.Job = job
 
-        self.Button:SetText(name)
+        self.Button:SetText(p:Name())
         self.Button.Lerp = 0
         self.Button.DoClick = function()
 
@@ -38,9 +39,31 @@ local bounty = {
 
                 surface.PlaySound("UI/buttonclick.wav")
 
+                if #JLib.VGui.MercMenu.Total < 1 then
+
+                    table.insert(JLib.VGui.MercMenu.Total, 250)
+
+                else
+
+                    table.insert(JLib.VGui.MercMenu.Total, JLib.VGui.MercMenu.Total[#JLib.VGui.MercMenu.Total] * JLib.Config.Mercenary.Multiplier)
+
+                end
+
             else
 
                 surface.PlaySound("UI/buttonclickrelease.wav")
+
+                table.remove(JLib.VGui.MercMenu.Total)
+
+            end
+
+            if JLib.VGui.MercMenu.Total[#JLib.VGui.MercMenu.Total] then
+
+                JLib.VGui.MercMenu.CheckoutSubmit:SetText("HIRE - " .. JLib.VGui.MercMenu.Total[#JLib.VGui.MercMenu.Total] .. "CR")
+
+            else
+
+                JLib.VGui.MercMenu.CheckoutSubmit:SetText("HIRE - " .. 0 .. "CR")
 
             end
 
@@ -57,6 +80,35 @@ local bounty = {
     end,
 
     Think = function(self)
+
+        local found = false
+
+        for _, p in pairs(player.GetAll()) do
+
+            if self.Entity == p then
+
+                if team.GetName(p:Team()) == self.Job.name then
+
+                    found = true
+
+                end
+
+            end
+
+        end
+
+        if not found then
+
+            self:Remove()
+
+            JLib.VGui.MercMenu.Cartel[self.Job.name] = nil
+
+            table.remove(JLib.VGui.MercMenu.Total)
+            print(JLib.VGui.MercMenu.Total[#JLib.VGui.MercMenu.Total])
+
+            return
+
+        end
 
         if self.Button:IsHovered() and JLib.VGui.MercMenu.Model:GetModel() ~= self.Job.model then
 
@@ -80,12 +132,12 @@ local bounty = {
 
             if self.Selected then
 
-                self.Lerp = math.min(w, self.Lerp + 10)
+                self.Lerp = math.min(w, self.Lerp + 30)
                 draw.RoundedBox(0, 0, 0, self.Lerp, h, Color(0, 200, 0, 115))
 
             else
 
-                self.Lerp = math.max(0, self.Lerp - 10)
+                self.Lerp = math.max(0, self.Lerp - 30)
                 draw.RoundedBox(0, 0, 0, self.Lerp, h, Color(0, 200, 0, 115))
 
             end
@@ -209,11 +261,70 @@ local popup = {
         self.JobName:SetContentAlignment(5)
         self.JobName:DockMargin(0, 0, 0, 0)
 
+        self.Checkout = self.RightContain:Add("Panel")
+        self.Checkout:Dock(BOTTOM)
+        self.Checkout:SetHeight((ScrH() / 100) * 17.5)
+        self.Checkout:DockMargin(0, 0, 0, 0)
+        self.Checkout.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 0))
+
+        end
+
+        self.CheckoutHeader = self.Checkout:Add("Panel")
+        self.CheckoutHeader:SetHeight((ScrH() / 100) * 4)
+        self.CheckoutHeader:Dock(TOP)
+        self.CheckoutHeader:DockMargin((ScrW() / 100) * 0.3, (ScrH() / 100) * 0.4, (ScrW() / 100) * 0.3, 0)
+        self.CheckoutHeader.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 230))
+
+        end
+
+        self.CheckoutTitle = self.CheckoutHeader:Add("DLabel")
+        self.CheckoutTitle:SetFont("JFontTitle_Merc")
+        self.CheckoutTitle:SetText("CONTRACT TYPE")
+        self.CheckoutTitle:SetTextColor(Color(255, 255, 255, 255))
+        self.CheckoutTitle:Dock(TOP)
+        self.CheckoutTitle:SetHeight((ScrH() / 100) * 4)
+        self.CheckoutTitle:SetContentAlignment(5)
+        self.CheckoutTitle:DockMargin(0, 0, 0, 0)
+
+        self.CheckoutType = self.Checkout:Add("DComboBox")
+        self.CheckoutType:SetHeight((ScrH() / 100) * 6)
+        self.CheckoutType:Dock(TOP)
+        self.CheckoutType:DockMargin((ScrW() / 100) * 0.3, (ScrH() / 100) * 0.4, (ScrW() / 100) * 0.3, 0)
+        self.CheckoutType:AddChoice('Raid')
+        self.CheckoutType:AddChoice('Takeover')
+        self.CheckoutType:SetTextColor(Color(255, 255, 255))
+        self.CheckoutType:SetFont("JFontTitle_Merc")
+        self.CheckoutType:SetContentAlignment(5)
+        self.CheckoutType.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 166))
+
+        end
+
+        self.CheckoutSubmit = self.Checkout:Add("DButton")
+        self.CheckoutSubmit:SetHeight((ScrH() / 100) * 6)
+        self.CheckoutSubmit:Dock(TOP)
+        self.CheckoutSubmit:SetTextColor(Color(255, 255, 255))
+        self.CheckoutSubmit:SetFont("JFontTitle_Merc")
+        self.CheckoutSubmit:DockMargin((ScrW() / 100) * 0.3, (ScrH() / 100) * 0.4, (ScrW() / 100) * 0.3, 0)
+        self.CheckoutSubmit.Paint = function(self, w, h)
+
+            draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 166))
+
+        end
+
     end,
-    --lua_run local i = 1 for k, v in pairs(player.GetAll()) do if v:IsBot() then v:SetTeam(20 + i) i = i + 1 end end
+    --bot;bot;bot;lua_run local i = 1 for k, v in pairs(player.GetAll()) do if v:IsBot() then v:SetTeam(20 + i) i = i + 1 end if v:Name() == "Luke Call" then v:SetTeam(7) end end
     Setup = function(self)
 
         self.Cartel = {}
+        self.Total = {}
+
+        self.CheckoutSubmit:SetText("HIRE - 0CR")
 
         self:Think(self)
         self.Model:SetCamPos(Vector(30, 30, 50))
@@ -259,7 +370,7 @@ local popup = {
                     end
 
                     self.Cartel[p:getJobTable().name] = vgui.CreateFromTable(bounty, self.Cartel[p:getJobTable().name])
-                    self.Cartel[p:getJobTable().name]:Setup(p:Name(), {name = p:getJobTable().name, desc = p:getJobTable().description, model = p:getJobTable().model})
+                    self.Cartel[p:getJobTable().name]:Setup(p, {name = p:getJobTable().name, desc = p:getJobTable().description, model = p:getJobTable().model})
                     self.Scroll:AddItem(self.Cartel[p:getJobTable().name])
 
                 end

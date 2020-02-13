@@ -498,4 +498,4 @@ JLib.Config.PlanetControl.BankUpdateTime = 15 --How many minutes between money b
 JLib.Config.Mercenary = JLib.Config.Mercenary or {}
 
 JLib.Config.Mercenary.BasePrice = 250 --How much do you want the first chosen mercenary to cost.
-JLib.Config.Mercenary.Multiplier = 2.25 --How much do you want it to times each total by each extra mercenary you choose.
+JLib.Config.Mercenary.Multiplier = 2.2 --How much do you want it to times each total by each extra mercenary you choose.
