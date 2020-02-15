@@ -64,9 +64,10 @@ local function Takeover_Command(ply, text)
                             end
 
                             ply:ChatPrint("You now own " .. v.name)
+                            local faction = ply:getJobTable().category
                             timer.Create(string.Replace(ply:getJobTable().category, " ", "") .. "_" .. "JLib_Takeover_Cooldown", JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                                 for a, b in pairs(player.GetAll()) do
-                                    b:ChatPrint(ply:getJobTable().category .. "'s takeover cooldown has ended.")
+                                    b:ChatPrint(faction .. "'s takeover cooldown has ended.")
                                 end
                             end)
 
@@ -172,18 +173,19 @@ local function Planet_Attack()
                 
                 if v.progress == 3 then
                     local attacker = v.attacker
+                    local control = v.control
 
-                    timer.Remove((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
-                    timer.Create((string.Replace(v.attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                    timer.Remove((string.Replace(attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
+                    timer.Create((string.Replace(attacker, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
                             player:ChatPrint("The cooldown for " .. attacker .. " is now over!")
                         end
                     end)
                     
-                    timer.Remove((string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
-                    timer.Create((string.Replace(v.control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
+                    timer.Remove((string.Replace(control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"))
+                    timer.Create((string.Replace(control, " ", "") .. "_" .. "JLib_Takeover_Cooldown"), JLib.Config.PlanetControl.Cooldown * 60, 1, function()
                         for _, player in pairs(player.GetAll()) do
-                            player:ChatPrint("The cooldown for " .. v.control .. " is now over!")
+                            player:ChatPrint("The cooldown for " .. control .. " is now over!")
                         end
                     end)
 
