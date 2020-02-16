@@ -47,13 +47,19 @@ local function raidCommand(ply, text)
             for _, leader in pairs(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"]) do
     
                 if player:Team() == leader then
-    
+
                     leader = player
     
                 end
     
             end
     
+        end
+
+        if ply == leader then
+
+            ply:ChatPrint("You cannot request a raid as a leader!")
+
         end
 
         net.Start("sendToRaidLeader")
