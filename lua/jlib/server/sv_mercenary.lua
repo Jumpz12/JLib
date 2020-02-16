@@ -17,7 +17,7 @@ local function mercenaryCommand(ply)
     
     if ply:getJobTable().side == "Neutral" then
 
-        ply:ChatPrint("You cannot hire mercenaries")
+        ply:ChatPrint("You cannot hire mercenaries!")
 
         return true
 
@@ -46,16 +46,14 @@ net.Receive("receiveMercenaryChoices", function(len, ply)
 
     local choices = net.ReadTable()
     local type = net.ReadString()
-    local faction = ply:getJobTable().category
 
     cache[ply:getJobTable().category] = {ply:getJobTable().side, #choices, net.ReadTable()}
 
-    for _, player in choices do
+    for _, player in pairs(choices) do
 
         net.Start("sendMercenaryAcceptance")
-        net.WriteString(faction)
+        net.WriteEntity(ply)
         net.WriteString(type) --Type of hiring
-        net.WriteTable(cache)
         net.Send(player)
     
     end
@@ -69,7 +67,8 @@ net.Receive("receiveMercenaryAcceptance", function(len, ply)
 
     if accept then
 
-        ply:SetPData("Hired", faction)
+        --ply:SetPData("Hired", faction)
+        JLib.SavePData(ply, "Hired", faction)
 
         for _, player in pairs(player.GetAll()) do
 
