@@ -345,7 +345,7 @@ local popup = {
         end
 
     end,
-    --bot;bot;bot;lua_run local i = 1 for k, v in pairs(player.GetAll()) do if v:IsBot() then v:SetTeam(20 + i) i = i + 1 end if v:Name() == "Luke Call" then v:SetTeam(7) end end
+
     Setup = function(self)
 
         self.Cartel = {}

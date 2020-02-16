@@ -1,5 +1,7 @@
+
 --[[ Include a table with tables inside as data_title and do not provide a data_value and it'll take multiple pieces of data in the same format.
 Exmaple here: {{"title", "value"}, {"title", "value"}}]]--
+
 JLib.SavePData = function(target, data_title, data_value)
 
     local args = data_title
