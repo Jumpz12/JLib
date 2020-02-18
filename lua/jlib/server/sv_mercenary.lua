@@ -14,7 +14,7 @@ local function mercenaryCommand(ply)
         return true
 
     end
-    
+
     if ply:getJobTable().side == "Neutral" then
 
         ply:ChatPrint("You cannot hire mercenaries!")
@@ -26,7 +26,7 @@ local function mercenaryCommand(ply)
     if not table.HasValue(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category]["Leaders"], ply:Team()) then
 
         ply:ChatPrint("You need to be a leader to hire mercenaries!")
-        
+
         return true
 
     end
@@ -35,7 +35,7 @@ local function mercenaryCommand(ply)
     net.WriteString(ply:getJobTable().category)
     net.WriteInt(JLib.Config.PlanetControl.Factions[ply:getJobTable().side][ply:getJobTable().category].money, 32)
     net.Send(ply)
-    
+
     return true
 
 end
@@ -43,6 +43,8 @@ end
 hook.Add("ShowTeam", "mercenaryCommand", mercenaryCommand)
 
 net.Receive("receiveMercenaryChoices", function(len, ply)
+
+    print(ply:Name())
 
     local choices = net.ReadTable()
     local type = net.ReadString()
@@ -52,10 +54,11 @@ net.Receive("receiveMercenaryChoices", function(len, ply)
     for _, player in pairs(choices) do
 
         net.Start("sendMercenaryAcceptance")
+        print(ply:Name())
         net.WriteEntity(ply)
-        net.WriteString(type) --Type of hiring
+        net.WriteString(type)
         net.Send(player)
-    
+
     end
 
 end)
@@ -84,23 +87,23 @@ net.Receive("receiveMercenaryAcceptance", function(len, ply)
 
         table.remove(cache[faction][3])
 
-        if cache[faction][2] - 1 == 0 then 
+        for _, player in pairs(player.GetAll()) do
 
-            cache[faction][2] = cache[faction][2] - 1
+            if player:getJobTable().category == faction then
 
-            JLib.Config.PlanetControl.Factions[cache[faction][1]][faction].money = JLib.Config.PlanetControl.Factions[cache[faction][1]][faction].money - cache[faction][3][#cache[faction][3]]
+                player:ChatPrint(ply:Name() .. " has declined your contract!")
+
+            end
 
         end
 
     end
 
-    for _, player in pairs(player.GetAll()) do
+    if cache[faction][2] - 1 == 0 then
 
-        if player:getJobTable().category == faction then
+        cache[faction][2] = cache[faction][2] - 1
 
-            player:ChatPrint(ply:Name() .. " has declined your contract!")
-
-        end
+        JLib.Config.PlanetControl.Factions[cache[faction][1]][faction].money = JLib.Config.PlanetControl.Factions[cache[faction][1]][faction].money - cache[faction][3][#cache[faction][3]]
 
     end
 

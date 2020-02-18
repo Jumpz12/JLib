@@ -330,17 +330,17 @@ local popup = {
         end
         self.CheckoutSubmit.DoClick = function()
 
-            if self.CheckoutType:GetSelected() != nil then
+            if self.CheckoutType:GetSelected() ~= nil then
 
-            net.Start("receiveMercenaryChoices")
-            net.WriteTable(self.Choices)
-            net.WriteString(self.CheckoutType:GetSelected())
-            net.WriteTable(self.Total)
-            net.SendToServer()
+                net.Start("receiveMercenaryChoices")
+                net.WriteTable(self.Choices)
+                net.WriteString(self.CheckoutType:GetSelected())
+                net.WriteTable(self.Total)
+                net.SendToServer()
 
                 self:Remove()
 
-                end
+            end
 
         end
 
@@ -623,7 +623,8 @@ net.Receive("sendMercenaryAcceptance", function()
     if not IsValid(JLib.VGui.MercContract) then
 
         JLib.VGui.MercContract = vgui.CreateFromTable(popup2)
-        JLib.VGui.MercContract:Setup(net.ReadString(), net.ReadEntity())
+        local ply = net.ReadEntity()
+        JLib.VGui.MercContract:Setup(net.ReadString(), ply)
         JLib.VGui.MercContract:MakePopup()
         JLib.VGui.MercContract:SetKeyBoardInputEnabled(false)
 

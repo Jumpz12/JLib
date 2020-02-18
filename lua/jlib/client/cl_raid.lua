@@ -193,8 +193,8 @@ net.Receive("sendToRaidLeader", function()
     if not IsValid(JLib.VGui.RaidRequest) then
 
         JLib.VGui.RaidRequest = vgui.CreateFromTable(popup2)
-        JLib.VGui.RaidRequest:Setup(net.ReadString(), net.ReadEntity())
-        JLib.VGui.RaidRequest:MakePopup()
+        local ply = net.ReadEntity()
+        JLib.VGui.RaidRequest:Setup(net.ReadString(), ply)
         JLib.VGui.RaidRequest:SetKeyBoardInputEnabled(false)
 
     else

@@ -5,7 +5,6 @@ local function raidCommand(ply, text)
 
     local args = string.Split(text, " ")
     local planet = table.concat(args, " ", 2)
-    local leader
 
     if args[1] == "!raid" then
 
@@ -48,24 +47,24 @@ local function raidCommand(ply, text)
     
                 if player:Team() == leader then
 
-                    leader = player
+                    if ply == player then
+
+                        ply:ChatPrint("You cannot request a raid as a leader!")
+
+                        return
+
+                    end
+
+                    net.Start("sendToRaidLeader")
+                    net.WriteEntity(ply)
+                    net.WriteString(planet)
+                    net.Send(player)
     
                 end
     
             end
     
         end
-
-        if ply == leader then
-
-            ply:ChatPrint("You cannot request a raid as a leader!")
-
-        end
-
-        net.Start("sendToRaidLeader")
-        net.WriteEntity(ply)
-        net.WriteString(planet)
-        net.Send(leader)
 
     end
 
